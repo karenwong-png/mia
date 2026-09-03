@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Exclusive Co-Living for Big Ben Students</title>
-<meta name="description" content="Modern fully furnished rooms designed for student comfort, convenience, and community living — powered by BeLive" />
+<title>Exclusive Co-Living for MIA Students</title>
+<meta name="description" content="Modern fully furnished rooms for Malaysian Institute of Art students in Taman Melawati — designed for comfort, convenience and community living, powered by BeLive" />
 <link rel="icon" type="image/png" href="favicon.png" />
 <link rel="shortcut icon" type="image/png" href="favicon.png" />
 <link rel="apple-touch-icon" href="favicon.png" />
@@ -74,6 +74,34 @@ nav.top {
 .brand img.logo-belive { height: 36px; width: auto; display: block; }
 .brand img.logo-vitrox { height: 42px; width: auto; display: block; }
 .brand .x { color: var(--ink); opacity: 0.3; font-size: 18px; font-style: italic; }
+/* The dark footer reuses .brand, where an ink-coloured separator is invisible. */
+footer .brand .x { color: var(--paper); }
+
+/* Campus lock-up. logos.png is the BIG BEN EDUCATION GROUP mark and cannot stand
+   in for MIA, so the campus half of each lock-up is set as type instead. When an
+   MIA logo is supplied, swap this span back for
+   <img class="logo-vitrox" src="mia-logo.png" alt="Malaysian Institute of Art">
+   in the nav, the partnership card and the footer. */
+.logo-campus-type {
+  display: block; font-family: 'Poppins', sans-serif;
+  font-weight: 700; font-size: 26px; line-height: 1;
+  letter-spacing: -0.02em; color: var(--ink);
+}
+.logo-campus-type small {
+  display: block; margin-top: 4px;
+  font-size: 8.5px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--orange-deep); white-space: nowrap;
+}
+.logo-campus-type.lg { font-size: 34px; }
+.logo-campus-type.lg small { font-size: 10px; margin-top: 5px; }
+.logo-campus-type.on-dark { color: var(--paper); }
+.logo-campus-type.on-dark small { color: var(--orange); }
+@media (max-width: 768px) {
+  .logo-campus-type { font-size: 18px; }
+  .logo-campus-type small { font-size: 7px; letter-spacing: 0.1em; }
+  .logo-campus-type.lg { font-size: 24px; }
+  .logo-campus-type.lg small { font-size: 8px; }
+}
 
 nav ul { list-style: none; display: flex; gap: 36px; }
 nav ul a {
@@ -137,7 +165,7 @@ nav ul a:hover::after { transform: scaleX(1); }
       rgba(250,247,242,0.72) 50%,
       rgba(250,247,242,0.38) 80%,
       rgba(250,247,242,0.25) 100%),
-    url('bigBenCyberjaya.jpg');
+    url('BeLive_MVertica_Swimming_Pool.JPG');
   background-size: cover, cover;
   background-position: center, center right;
   background-repeat: no-repeat, no-repeat;
@@ -271,7 +299,7 @@ h1.hero-title .underline::after {
         rgba(250,247,242,0.92) 0%,
         rgba(250,247,242,0.78) 55%,
         rgba(250,247,242,0.45) 100%),
-      url('bigBenCyberjaya.jpg');
+      url('BeLive_MVertica_Swimming_Pool.JPG');
     background-position: center, center bottom;
   }
   .hero-content { margin-left: 0; }
@@ -927,6 +955,24 @@ section { padding: 100px 40px; position: relative; }
    landscape render; that would now crop about half the tower away. */
 .res-photo { position: relative; border-radius: 32px; overflow: hidden; aspect-ratio: 3/4; }
 .res-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease; }
+/* Shown in place of the tower shot for residences with no photography on file,
+   so no building is ever illustrated with another building's picture. */
+.res-photo-empty {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; text-align: center; padding: 32px;
+  background: linear-gradient(150deg, rgba(255,107,26,0.18), rgba(255,255,255,0.05));
+  border: 1px dashed rgba(255,255,255,0.20);
+}
+.res-photo-empty .rpe-mark { font-size: 46px; line-height: 1; opacity: 0.45; }
+.res-photo-empty .rpe-name {
+  font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 500;
+  letter-spacing: -0.01em; color: rgba(250,247,242,0.92);
+}
+.res-photo-empty .rpe-note {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(250,247,242,0.5);
+}
 .res-panel.active .res-photo img { transform: scale(1.08); }
 .res-photo .photo-tag {
   position: absolute; top: 24px; left: 24px;
@@ -1098,6 +1144,10 @@ section { padding: 100px 40px; position: relative; }
   color: rgba(250,247,242,0.75);
 }
 .route-steps strong { color: var(--paper); font-weight: 600; }
+.route-note {
+  margin: 20px 0 0; font-size: 12.5px; line-height: 1.6;
+  color: rgba(250,247,242,0.48);
+}
 .route-soon {
   margin-top: 22px; padding: 30px; border-radius: 18px;
   border: 1px dashed rgba(255,255,255,0.18);
@@ -1545,13 +1595,13 @@ section { padding: 100px 40px; position: relative; }
   box-shadow: 0 30px 60px -25px rgba(14,14,16,0.25), 0 8px 16px -8px rgba(14,14,16,0.08);
   background: white;
 }
-#bigben-map {
+#mia-map {
   height: 760px; width: 100%;
   z-index: 0;
 }
 /* Desaturate only the basemap tiles - see the tileLayer comment. Markers,
    tooltips and the catchment rings sit in sibling panes and are unaffected. */
-#bigben-map .leaflet-tile-pane {
+#mia-map .leaflet-tile-pane {
   filter: grayscale(0.92) brightness(1.06) contrast(0.94);
 }
 /* Floating overlay cards on the map */
@@ -1901,11 +1951,11 @@ section { padding: 100px 40px; position: relative; }
 
 @media (max-width: 1100px) {
   .map-layout { grid-template-columns: 1fr 380px; gap: 20px; }
-  #bigben-map { height: 680px; }
+  #mia-map { height: 680px; }
 }
 @media (max-width: 900px) {
   .map-layout { grid-template-columns: 1fr; gap: 18px; }
-  #bigben-map { height: 520px; }
+  #mia-map { height: 520px; }
   .map-canvas { border-radius: 20px; }
   .map-filters { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .filter-head {
@@ -1924,7 +1974,7 @@ section { padding: 100px 40px; position: relative; }
   .map-section::before { width: 320px; height: 320px; top: -120px; right: -120px; }
   .market-badge { font-size: 10px; padding: 8px 14px; letter-spacing: 0.15em; }
   .map-header { margin-bottom: 24px; }
-  #bigben-map { height: 440px; }
+  #mia-map { height: 440px; }
   .map-canvas { border-radius: 18px; }
   .map-filters { grid-template-columns: 1fr; }
   .filter-head { flex-direction: column; align-items: flex-start; gap: 10px; }
@@ -2128,7 +2178,7 @@ footer {
 <nav class="top">
   <div class="brand">
     <div class="brand-logos">
-      <img class="logo-vitrox" src="logos.png" alt="Big Ben">
+      <span class="logo-campus-type">MIA<small>Malaysian Institute of Art</small></span>
       <span class="x">×</span>
       <img class="logo-belive" src="beLive_Logo_F_fit.png" alt="beLive">
     </div>
@@ -2141,6 +2191,9 @@ footer {
     <li><a href="#difference">BeLive Difference</a></li>
     <li><a href="#how-to-book">How to Book</a></li>
   </ul>
+  <!-- TODO: every booking CTA on this page (7 of them, in the nav, hero, room
+       cards, how-to-book, final CTA and the floating button) still points at the
+       Big Ben partner form. Replace the URL throughout with the MIA one. -->
   <a href="https://bit.ly/BigBen_Accommodation_Partner" target="_blank" rel="noopener" class="cta-btn">Book Now <span class="arrow">→</span></a>
 </nav>
 
@@ -2149,7 +2202,7 @@ footer {
   <div class="hero-content">
     <h1 class="hero-title">
       Exclusive <span class="underline">Co-Living</span> for<br>
-      <em>Big Ben</em> Students
+      <em>MIA</em> Students
     </h1>
     <p class="lede">
       Modern fully furnished rooms designed for student comfort, convenience, and community living — powered by BeLive.
@@ -2167,19 +2220,19 @@ footer {
   <div class="hero-visual" hidden></div>
 </section>
 
-<!-- BUILT TOGETHER WITH BIG BEN -->
+<!-- BUILT TOGETHER WITH MIA -->
 <section class="built-together" id="built-together">
   <div class="built-together-card">
     <div class="built-together-top">
       <div class="built-together-logos">
-        <img class="logo-campus" src="logos.png" alt="Big Ben">
+        <span class="logo-campus-type lg">MIA<small>Malaysian Institute of Art</small></span>
         <span class="bt-x">×</span>
         <img src="beLive_Logo_F_fit.png" alt="beLive">
       </div>
       <div class="built-together-text">
         <div class="kicker">Partnership</div>
-        <h2>Built Together with <em>Big Ben.</em></h2>
-        <p>An exclusive co-living programme co-designed by BeLive and Big Ben — built around how students actually live, study and unwind in Dengkil.</p>
+        <h2>Built Together with <em>MIA.</em></h2>
+        <p>An exclusive co-living programme co-designed by BeLive and the Malaysian Institute of Art — built around how art, design and music students actually live, study and unwind around Taman Melawati.</p>
       </div>
     </div>
   </div>
@@ -2189,7 +2242,7 @@ footer {
 <section class="why-belive" id="why-belive">
   <div class="section-head">
     <div class="kicker">Why Choose BeLive</div>
-    <h2>Why Big Ben Students <em>Choose BeLive.</em></h2>
+    <h2>Why MIA Students <em>Choose BeLive.</em></h2>
     <p>Built for student life — smart, comfortable and worry-free, all in one address.</p>
   </div>
   <div class="why-groups">
@@ -2279,21 +2332,21 @@ footer {
     <div class="map-header">
       <span class="market-badge">Market Insights</span>
       <h2 class="catchment-title">Catchment Map · <em>Kuala Lumpur</em></h2>
-      <p class="catchment-sub">Everything around Big Ben — at a glance.</p>
+      <p class="catchment-sub">Everything around the MIA campus — at a glance.</p>
     </div>
 
     <div class="map-layout">
       <div class="map-canvas">
-        <div id="bigben-map" role="application" aria-label="Map of Big Ben and surrounding residences and amenities"></div>
+        <div id="mia-map" role="application" aria-label="Map of the MIA campus and surrounding residences and amenities"></div>
         <div class="map-overlay map-overlay-top">
           <span class="map-stat-chip"><span class="chip-dot"></span><strong>5 km</strong> &amp; <strong>10 km</strong> catchment</span>
           <span class="map-stat-chip"><span class="chip-dot"></span><strong>5</strong> residences</span>
-          <span class="map-stat-chip"><span class="chip-dot"></span><strong>580 m</strong> to KLCC</span>
+          <span class="map-stat-chip"><span class="chip-dot"></span><strong>450 m</strong> to Melawati Mall</span>
         </div>
         <div class="map-overlay map-overlay-bottom">
           <div class="map-legend-card">
             <h4>Map Legend</h4>
-            <div class="map-legend-row"><span class="lg-star">★</span> Big Ben</div>
+            <div class="map-legend-row"><span class="lg-star">★</span> MIA campus</div>
             <div class="map-legend-row"><span class="lg-dot" style="background:#FF6B1A"></span> Active category pin</div>
             <div class="map-legend-row"><span class="lg-ring"></span> 5 km inner catchment</div>
             <div class="map-legend-row"><span class="lg-ring lg-ring-outer"></span> 10 km outer catchment</div>
@@ -2314,7 +2367,7 @@ footer {
 
     <p class="map-footnote">
       Click a category card to filter the map — by default only nearby residences are shown.
-      Tick <strong>Show all</strong> to see every catchment pin at once. The ★ pin marks Big Ben.
+      Tick <strong>Show all</strong> to see every catchment pin at once. The ★ pin marks the MIA campus in Taman Melawati.
     </p>
   </div>
 </section>
@@ -2324,19 +2377,81 @@ footer {
   <div class="section-head">
     <div class="kicker">Your Residence</div>
     <h2 style="color:var(--paper);">The address that <em>feels</em><br>like you.</h2>
-    <p>Purpose-built co-living for Big Ben students, managed end to end by BeLive.</p>
+    <p>Purpose-built co-living for MIA students, managed end to end by BeLive.</p>
   </div>
 
   <div class="res-tabs" role="tablist" aria-label="Choose a residence">
-    <button class="res-tab active" type="button" data-tab="mvertica">M Vertica</button>
-    <button class="res-tab" type="button" data-tab="metacity">Meta City</button>
-    <button class="res-tab" type="button" data-tab="parc3">The PARC3</button>
-    <button class="res-tab" type="button" data-tab="nexus">Nexus</button>
-    <button class="res-tab" type="button" data-tab="uno">UNO</button>
+    <button class="res-tab active" type="button" data-tab="madora">M Adora</button>
+    <button class="res-tab" type="button" data-tab="mhplatinum2">MH Platinum 2</button>
+    <button class="res-tab" type="button" data-tab="rica">Rica</button>
+    <button class="res-tab" type="button" data-tab="mvertica">M Vertica</button>
+    <button class="res-tab" type="button" data-tab="unio">Unio</button>
+  </div>
+
+  <!-- Tabs run nearest-to-furthest from the MIA campus in Taman Melawati.
+       Only M Vertica has photography on file; the other four show a neutral
+       placeholder rather than borrowing another building's pictures. Drop a
+       tower shot in and swap the placeholder for an <img> to switch one on. -->
+
+  <!-- M ADORA -->
+  <div class="res-panel active" data-panel="madora">
+    <div class="res-photo">
+      <div class="res-photo-empty" role="img" aria-label="Photograph of M Adora coming soon">
+        <span class="rpe-mark" aria-hidden="true">🏙</span>
+        <span class="rpe-name">M Adora</span>
+        <span class="rpe-note">Photography coming soon</span>
+      </div>
+      <span class="photo-tag">M Adora &middot; Wangsa Melawati</span>
+    </div>
+    <div class="res-info">
+      <div class="res-name">M <em>Adora</em></div>
+      <div class="res-vibe">~ closest to campus, low density, walk to class ~</div>
+      <div class="res-desc">M Adora is a Mah Sing development on Jalan Wangsa Melawati 1 — two 31-storey towers holding 677 units on a 4.5-acre parcel, with 35 facilities including a cantilevered glass gymnasium and a sky bridge on level 29. At 1.2 km it is the closest BeLive residence to the MIA campus: a 15-minute walk, or five minutes by car. Rooms are fully furnished and managed end to end by BeLive.</div>
+      <div class="res-stats" id="madora-stats"></div>
+      <div class="res-facilities" id="madora-facilities"></div>
+    </div>
+  </div>
+
+  <!-- MH PLATINUM 2 -->
+  <div class="res-panel" data-panel="mhplatinum2">
+    <div class="res-photo">
+      <div class="res-photo-empty" role="img" aria-label="Photograph of MH Platinum 2 coming soon">
+        <span class="rpe-mark" aria-hidden="true">🏙</span>
+        <span class="rpe-name">MH Platinum 2</span>
+        <span class="rpe-note">Photography coming soon</span>
+      </div>
+      <span class="photo-tag">MH Platinum 2 &middot; Setapak</span>
+    </div>
+    <div class="res-info">
+      <div class="res-name">MH <em>Platinum 2</em></div>
+      <div class="res-vibe">~ brand new, mall-side, LRT-linked ~</div>
+      <div class="res-desc">Residensi MH Platinum 2 is a joint MH Group and Platinum Victory development on Jalan Usahawan 6 in Setapak — three blocks of 1,254 units on a 4.72-acre site, completed in June 2025. Setapak Central, AEON Alpha Angle and Wangsa Maju LRT are all minutes away, and the MIA campus is 3.2 km east. Rooms are fully furnished and managed end to end by BeLive.</div>
+      <div class="res-stats" id="mhplatinum2-stats"></div>
+      <div class="res-facilities" id="mhplatinum2-facilities"></div>
+    </div>
+  </div>
+
+  <!-- RICA RESIDENCE -->
+  <div class="res-panel" data-panel="rica">
+    <div class="res-photo">
+      <div class="res-photo-empty" role="img" aria-label="Photograph of Rica Residence coming soon">
+        <span class="rpe-mark" aria-hidden="true">🏙</span>
+        <span class="rpe-name">Rica Residence</span>
+        <span class="rpe-note">Photography coming soon</span>
+      </div>
+      <span class="photo-tag">Rica Residence &middot; Sentul</span>
+    </div>
+    <div class="res-info">
+      <div class="res-name">Rica <em>Residence</em></div>
+      <div class="res-vibe">~ freehold, city-fringe, MRT at the door ~</div>
+      <div class="res-desc">Rica Residence is a Fajarbaru development at 48 Jalan Perhentian in Sentul — a single 39-storey tower of 473 freehold units completed in 2021, with an open-air theatre, a trampoline park and a glass sky bridge among its facilities. Sentul Barat MRT on the Putrajaya Line sits roughly 300 m from the lobby. Rooms are fully furnished and managed end to end by BeLive.</div>
+      <div class="res-stats" id="rica-stats"></div>
+      <div class="res-facilities" id="rica-facilities"></div>
+    </div>
   </div>
 
   <!-- M VERTICA -->
-  <div class="res-panel active" data-panel="mvertica">
+  <div class="res-panel" data-panel="mvertica">
     <div class="res-photo">
       <img src="MVertica_Condo.jpg" alt="M Vertica — residential tower at Taman Pertama, Cheras">
       <span class="photo-tag">M Vertica &middot; Taman Pertama, Cheras</span>
@@ -2344,7 +2459,7 @@ footer {
     <div class="res-info">
       <div class="res-name">M <em>Vertica</em></div>
       <div class="res-vibe">~ transit-linked, city-fringe, move-in ready ~</div>
-      <div class="res-desc">M Vertica is a Mah Sing serviced-residence development at 555 Jalan Cheras in Taman Pertama, completed in 2023 and linked directly to Taman Pertama MRT — 5.9 km from the Big Ben campus. Rooms are fully furnished and managed end to end by BeLive, with Master, Queen and Single types available.</div>
+      <div class="res-desc">M Vertica is a Mah Sing serviced-residence development at 555 Jalan Cheras in Taman Pertama — five towers of 3,684 units over a 4.54-acre facilities deck, completed between 2022 and 2023 and 500 m from the Maluri MRT–LRT interchange by covered walkway. It is the furthest of the five from campus at 11.4 km, but the best connected. Rooms are fully furnished and managed end to end by BeLive, with Master, Queen and Single types available.</div>
       <div class="res-stats" id="mvertica-stats"></div>
       <div class="res-facilities" id="mvertica-facilities"></div>
       <div class="res-facility-photos">
@@ -2355,90 +2470,22 @@ footer {
     </div>
   </div>
 
-  <!-- META CITY -->
-  <div class="res-panel" data-panel="metacity">
+  <!-- UNIO RESIDENCE -->
+  <div class="res-panel" data-panel="unio">
     <div class="res-photo">
-      <!-- 1920x960 in a 3/4 slot: the centre crop lands on the towers (they sit
-           across the middle third of the render), so no crop override needed. -->
-      <img src="BeLive_MetaCity_Condo.jpg" alt="Meta City — four towers over a retail podium at Seri Kembangan">
-      <span class="photo-tag">Meta City &middot; Seri Kembangan, Selangor</span>
+      <div class="res-photo-empty" role="img" aria-label="Photograph of Unio Residence coming soon">
+        <span class="rpe-mark" aria-hidden="true">🏙</span>
+        <span class="rpe-name">Unio Residence</span>
+        <span class="rpe-note">Photography coming soon</span>
+      </div>
+      <span class="photo-tag">Unio Residence &middot; Kepong</span>
     </div>
     <div class="res-info">
-      <div class="res-name">Meta <em>City</em></div>
-      <!-- TODO CONTENT: no res-vibe tagline here, none was supplied. -->
-      <div class="res-desc">Meta City is a Villamas transit-oriented development on Jalan Atmosphere Utama 2 in Seri Kembangan — four towers over a retail podium, 15 km from the Big Ben campus. Rooms are fully furnished and managed end to end by BeLive, with Supreme Master, Supreme Middle, Queen and Single types available.</div>
-      <div class="res-stats"></div>
-      <div class="res-facilities"></div>
-      <div class="res-facility-photos">
-        <figure><img src="BeLive_MetaCity_Pool.jpg" alt="Meta City swimming pool" loading="lazy" decoding="async"><figcaption>Swimming Pool</figcaption></figure>
-        <figure><img src="BeLive_MetaCity_Gym.jpg" alt="Meta City gymnasium" loading="lazy" decoding="async"><figcaption>Gymnasium</figcaption></figure>
-        <figure><img src="BeLive_MetaCity_garden.JPG" alt="Meta City landscaped garden" loading="lazy" decoding="async"><figcaption>Garden</figcaption></figure>
-      </div>
-    </div>
-  </div>
-
-  <!-- THE PARC3 -->
-  <div class="res-panel" data-panel="parc3">
-    <div class="res-photo">
-      <img src="BeLive_Parc3_Condo.jpg" alt="The PARC3 — 39-storey tower at Taman Pudu Ulu, Cheras">
-      <span class="photo-tag">The PARC3 &middot; Taman Pudu Ulu, Cheras</span>
-    </div>
-    <div class="res-info">
-      <div class="res-name">The <em>PARC3</em></div>
-      <!-- TODO CONTENT: no res-vibe tagline here, none was supplied. -->
-      <div class="res-desc">The PARC3 is a Eupe Corporation serviced-residence development on Jalan Pudu Perdana in Taman Pudu Ulu, Cheras — a 39-storey tower of 793 units completed in 2021, 5.0 km from the Big Ben campus. Rooms are fully furnished and managed end to end by BeLive, with Master, Queen and Single types available.</div>
-      <div class="res-stats"></div>
-      <div class="res-facilities"></div>
-      <div class="res-facility-photos">
-        <figure><img src="BeLive_Parc3_Pool.JPG" alt="The PARC3 swimming pool" loading="lazy" decoding="async"><figcaption>Swimming Pool</figcaption></figure>
-        <figure><img src="BeLive_Parc3_Gym.JPG" alt="The PARC3 gym and dancing room" loading="lazy" decoding="async"><figcaption>Gym &amp; Dancing Room</figcaption></figure>
-        <figure><img src="BeLive_Parc3_Meeting_Reading_Room.JPG" alt="The PARC3 meeting and reading room" loading="lazy" decoding="async"><figcaption>Meeting &amp; Reading Room</figcaption></figure>
-      </div>
-    </div>
-  </div>
-
-  <!-- NEXUS -->
-  <div class="res-panel" data-panel="nexus">
-    <div class="res-photo">
-      <!-- NOTE: source is only 800x600, so this is upscaled to fill the 3/4 slot
-           and cropped to about 56% of its width. A larger, portrait-leaning shot
-           would render noticeably sharper. -->
-      <img src="BeLive_Nexus_Condo.jpg" alt="Nexus Residence — 41-storey tower at Taman Pertama, Cheras">
-      <span class="photo-tag">Nexus Residence &middot; Taman Pertama, Cheras</span>
-    </div>
-    <div class="res-info">
-      <div class="res-name">Nexus <em>Residence</em></div>
-      <!-- TODO CONTENT: no res-vibe tagline here, none was supplied. -->
-      <div class="res-desc">Nexus Residence is an MKH Berhad serviced-residence development in Taman Pertama, Cheras — a 41-storey tower of 507 units, GreenRE Gold certified and 150 m from Taman Pertama MRT by covered walkway, 5.8 km from the Big Ben campus. Rooms are fully furnished and managed end to end by BeLive, with Master, Queen and Balcony types available.</div>
-      <div class="res-stats"></div>
-      <div class="res-facilities"></div>
-      <div class="res-facility-photos">
-        <figure><img src="BeLive_Nexus_Pool.jpg" alt="Nexus Residence sky infinity pool" loading="lazy" decoding="async"><figcaption>Sky Infinity Pool</figcaption></figure>
-        <figure><img src="BeLive_Nexus_gym.jpg" alt="Nexus Residence gymnasium" loading="lazy" decoding="async"><figcaption>Gymnasium</figcaption></figure>
-        <figure><img src="BeLive_Nexus_sky_bbq.jpg" alt="Nexus Residence sky BBQ area" loading="lazy" decoding="async"><figcaption>BBQ Area</figcaption></figure>
-      </div>
-    </div>
-  </div>
-
-  <!-- UNO -->
-  <div class="res-panel" data-panel="uno">
-    <div class="res-photo">
-      <!-- 1920x769 (2.5:1) in a 3/4 slot: the centre crop takes source x
-           672-1248 and the tower spans roughly 810-1090, so it lands inside. -->
-      <img src="BeLive_UNO_Condo.jpg" alt="UNO @ Nadayu 99 — 30-storey block at Persiaran Bestari, Cyberjaya">
-      <span class="photo-tag">UNO &middot; Persiaran Bestari, Cyberjaya</span>
-    </div>
-    <div class="res-info">
-      <div class="res-name">UNO <em>Cyberjaya</em></div>
-      <!-- TODO CONTENT: no res-vibe tagline here, none was supplied. -->
-      <div class="res-desc">UNO @ Nadayu 99 is a 30-storey block of 349 units on Persiaran Bestari in Cyberjaya, every unit 936 sq ft with three bedrooms. At 27 km it is the furthest of the five residences from the Big Ben campus. Room types and rates are being finalised.</div>
-      <div class="res-stats"></div>
-      <div class="res-facilities"></div>
-      <div class="res-facility-photos">
-        <figure><img src="BeLive_UNO_Pool.jpg" alt="UNO infinity pool" loading="lazy" decoding="async"><figcaption>Infinity Pool</figcaption></figure>
-        <figure><img src="BeLive_UNO_Gym.jpg" alt="UNO indoor and outdoor gym" loading="lazy" decoding="async"><figcaption>Indoor &amp; Outdoor Gym</figcaption></figure>
-        <figure><img src="BeLive_UNO_Game_Room.jpg" alt="UNO game room" loading="lazy" decoding="async"><figcaption>Game Room</figcaption></figure>
-      </div>
+      <div class="res-name">Unio <em>Residence</em></div>
+      <div class="res-vibe">~ green-certified, Kepong, sky-deck living ~</div>
+      <div class="res-desc">Unio Residence is an Aikbee development on Jalan Kepong — two 36-storey towers of 520 units completed in 2021, on its way to GBI certification, with a 60-metre infinity pool and a sky amphitheatre lounge. Kepong Baru MRT on the Putrajaya Line is about 400 m away. Room types and rates are being finalised.</div>
+      <div class="res-stats" id="unio-stats"></div>
+      <div class="res-facilities" id="unio-facilities"></div>
     </div>
   </div>
 
@@ -2457,67 +2504,69 @@ footer {
   </div>
 
   <!-- GETTING TO CAMPUS -->
+  <!-- The MIA campus is not on the rail network, so these are written as
+       distance + nearest station + typical door-to-door time rather than as
+       line-by-line MRT directions. Times are indicative and traffic-dependent.
+       The previous version carried a route infographic per residence; those
+       graphics were drawn for the old campus and have been removed rather than
+       relabelled. Add <figure class="route-figure"> back above each summary if
+       new ones are commissioned - the CSS and the lightbox still support it. -->
   <div class="route-strip">
     <div class="kicker">Getting Around</div>
-    <h3>Getting to <em>Big Ben Education Group</em></h3>
-    <p class="common-desc">Every BeLive residence connects to campus on the MRT. Pick a residence to
-      see its route to Megan Avenue 2 — lines, transfers, walking distance and total journey time.
-      Tap a guide to enlarge it.</p>
+    <h3>Getting to the <em>Malaysian Institute of Art</em></h3>
+    <p class="common-desc">MIA sits at 294&ndash;299 Jalan Bandar 11 in Taman Melawati, just off the rail
+      network &mdash; Wangsa Maju on the Kelana Jaya Line is the nearest LRT at about 2 km. Pick a residence
+      to see how far it is from campus, which station serves it, and how long the trip usually takes.</p>
     <div class="res-tabs" role="tablist" aria-label="Choose a residence route">
+      <button class="res-tab active" type="button" data-tab="madora">M Adora</button>
+      <button class="res-tab" type="button" data-tab="mhplatinum2">MH Platinum 2</button>
+      <button class="res-tab" type="button" data-tab="rica">Rica</button>
       <button class="res-tab" type="button" data-tab="mvertica">M Vertica</button>
-      <button class="res-tab" type="button" data-tab="metacity">Meta City</button>
-      <button class="res-tab" type="button" data-tab="parc3">The PARC3</button>
-      <button class="res-tab" type="button" data-tab="nexus">Nexus</button>
-      <button class="res-tab" type="button" data-tab="uno">UNO</button>
+      <button class="res-tab" type="button" data-tab="unio">Unio</button>
+    </div>
+
+    <div class="route-panel active" data-route="madora">
+      <div class="route-summary">
+        <div><div class="v">5&ndash;15 min</div><div class="l">Typical journey</div></div>
+        <div><div class="v">1.2 km</div><div class="l">To campus</div></div>
+        <div><div class="v">Walk or bus</div><div class="l">Nearest station</div></div>
+      </div>
+      <p class="route-steps">M Adora and the campus share a neighbourhood. It is a <strong>15-minute walk</strong> north-east along Jalan Wangsa Melawati into Jalan Bandar 11, or about <strong>five minutes</strong> by car or RapidKL bus. No rail, no transfers &mdash; the shortest commute of the five.</p>
+    </div>
+    <div class="route-panel" data-route="mhplatinum2">
+      <div class="route-summary">
+        <div><div class="v">10&ndash;20 min</div><div class="l">Typical journey</div></div>
+        <div><div class="v">3.2 km</div><div class="l">To campus</div></div>
+        <div><div class="v">Wangsa Maju LRT</div><div class="l">Nearest station</div></div>
+      </div>
+      <p class="route-steps">About <strong>10 minutes</strong> east by road via Jalan Genting Klang and Jalan Bandar Melawati, or a RapidKL bus toward Melawati. <strong>Wangsa Maju LRT</strong> on the Kelana Jaya Line is roughly 1.2 km from the lobby for trips into the city centre.</p>
+    </div>
+    <div class="route-panel" data-route="rica">
+      <div class="route-summary">
+        <div><div class="v">20&ndash;30 min</div><div class="l">Typical journey</div></div>
+        <div><div class="v">7.3 km</div><div class="l">To campus</div></div>
+        <div><div class="v">Sentul Barat MRT</div><div class="l">Nearest station</div></div>
+      </div>
+      <p class="route-steps"><strong>Sentul Barat</strong> on the Putrajaya Line is about 300 m from the lobby &mdash; four minutes on foot &mdash; and puts KLCC and TRX within a single ride. Campus itself is a road trip: <strong>20&ndash;30 minutes</strong> via Jalan Tun Razak and Jalan Genting Klang, as no one rail line links Sentul to Taman Melawati.</p>
     </div>
     <div class="route-panel" data-route="mvertica">
-      <figure class="route-figure">
-        <img src="BeLive_BigBen_MVertica.jpg" alt="Route guide from M Vertica to Big Ben Education Group: walk 8 minutes to Maluri MRT, Kajang Line one stop to Tun Razak Exchange, transfer to the Putrajaya Line for two stops to Persiaran KLCC, then an 8-minute walk to Megan Avenue 2. Total 25 to 30 minutes." loading="lazy" decoding="async">
-      </figure>
       <div class="route-summary">
-        <div><div class="v">25–30 min</div><div class="l">Journey time</div></div>
-        <div><div class="v">650 m</div><div class="l">Total walking</div></div>
-        <div><div class="v">1 transfer</div><div class="l">Transfers</div></div>
+        <div><div class="v">30&ndash;40 min</div><div class="l">Typical journey</div></div>
+        <div><div class="v">11.4 km</div><div class="l">To campus</div></div>
+        <div><div class="v">Maluri MRT&ndash;LRT</div><div class="l">Nearest station</div></div>
       </div>
-      <p class="route-steps">Walk 8 min (550 m) to <strong>Maluri</strong> MRT, ride the <strong>Kajang Line</strong> 1 stop to <strong>Tun Razak Exchange</strong>, transfer to the <strong>Putrajaya Line</strong> for 2 stops to <strong>Persiaran KLCC</strong>, then walk 8 min (650 m) to Megan Avenue 2.</p>
+      <p class="route-steps">Six minutes (550 m) under cover to the <strong>Maluri</strong> MRT&ndash;LRT interchange, which is the best connected address of the five. For campus, ride the <strong>Ampang Line</strong> to Masjid Jamek, transfer to the <strong>Kelana Jaya Line</strong> as far as Wangsa Maju, then a short bus or ride east &mdash; around 70 minutes all in. By road it is <strong>30&ndash;40 minutes</strong> direct.</p>
     </div>
-    <div class="route-panel" data-route="metacity">
-      <figure class="route-figure">
-        <img src="BeLive_MetaCity.png" alt="Route guide from Meta City to Big Ben Education Group: short walk to Taman Equine MRT, Putrajaya Line 16 stations to Tun Razak Exchange, transfer to the Kajang Line for one stop to Bukit Bintang, then a 5 to 10 minute walk to Megan Avenue 2. Total 50 to 60 minutes." loading="lazy" decoding="async">
-      </figure>
+    <div class="route-panel" data-route="unio">
       <div class="route-summary">
-        <div><div class="v">50–60 min</div><div class="l">Journey time</div></div>
-        <div><div class="v">700 m</div><div class="l">Total walking</div></div>
-        <div><div class="v">2 transfers</div><div class="l">Transfers</div></div>
+        <div><div class="v">30&ndash;40 min</div><div class="l">Typical journey</div></div>
+        <div><div class="v">12.2 km</div><div class="l">To campus</div></div>
+        <div><div class="v">Kepong Baru MRT</div><div class="l">Nearest station</div></div>
       </div>
-      <p class="route-steps">Walk 5–8 min to <strong>Taman Equine</strong> (PY36), ride the <strong>Putrajaya Line</strong> 16 stations (~25 min) to <strong>Tun Razak Exchange</strong>, transfer to the <strong>Kajang Line</strong> for 1 stop to <strong>Bukit Bintang</strong>, then walk 5–10 min to Megan Avenue 2.</p>
+      <p class="route-steps"><strong>Kepong Baru</strong> on the Putrajaya Line is about 400 m away, five minutes on foot, for city trips. Campus is a cross-town run: <strong>30&ndash;40 minutes</strong> by road via the DUKE Highway. No single rail line connects Kepong to Taman Melawati.</p>
     </div>
-    <div class="route-panel" data-route="parc3">
-      <figure class="route-figure">
-        <img src="BeLive_Parc3.jpg" alt="Route guide from The PARC3 to Big Ben Education Group: walk 10 minutes to Taman Pertama MRT, Kajang Line three stops to Tun Razak Exchange, transfer to the Putrajaya Line for two stops to Persiaran KLCC, then a 5 to 7 minute walk to Megan Avenue 2. Total 30 to 35 minutes." loading="lazy" decoding="async">
-      </figure>
-      <div class="route-summary">
-        <div><div class="v">30–35 min</div><div class="l">Journey time</div></div>
-        <div><div class="v">750 m</div><div class="l">Total walking</div></div>
-        <div><div class="v">1 transfer</div><div class="l">Transfers</div></div>
-      </div>
-      <p class="route-steps">Walk 10 min (550 m) to <strong>Taman Pertama</strong> (SBK23), ride the <strong>Kajang Line</strong> 3 stops to <strong>Tun Razak Exchange</strong>, transfer to the <strong>Putrajaya Line</strong> for 2 stops to <strong>Persiaran KLCC</strong>, then walk 5–7 min (200 m) to Megan Avenue 2.</p>
-    </div>
-    <div class="route-panel" data-route="nexus">
-      <figure class="route-figure">
-        <img src="BeLive_Nexus.jpg" alt="Route guide from Nexus Residence Taman Pertama to Big Ben Education Group: two-minute walk to Taman Pertama MRT, Kajang Line three stops to Tun Razak Exchange, transfer to the Putrajaya Line for two stops to Persiaran KLCC, then a 6 to 8 minute walk to Megan Avenue 2. Total 30 to 35 minutes." loading="lazy" decoding="async">
-      </figure>
-      <div class="route-summary">
-        <div><div class="v">30–35 min</div><div class="l">Journey time</div></div>
-        <div><div class="v">600 m</div><div class="l">Total walking</div></div>
-        <div><div class="v">1 transfer</div><div class="l">Transfers</div></div>
-      </div>
-      <p class="route-steps">Walk 2 min (150 m) to <strong>Taman Pertama</strong> (SBK23), ride the <strong>Kajang Line</strong> 3 stops to <strong>Tun Razak Exchange</strong>, transfer to the <strong>Putrajaya Line</strong> for 2 stops to <strong>Persiaran KLCC</strong>, then walk 6–8 min (450 m) to Megan Avenue 2.</p>
-    </div>
-    <div class="route-panel" data-route="uno">
-      <div class="route-soon">UNO Cyberjaya sits outside the MRT network, so its route guide is
-        being prepared separately — ask a BeLive community manager for the current options.</div>
-    </div>
+    <p class="route-note">Journey times are indicative and vary with traffic and time of day.
+      Distances are straight-line from the campus pin on the map above.</p>
   </div>
 
 </section>
@@ -2745,10 +2794,10 @@ footer {
       <label class="calc-field">
         <span>Residence</span>
         <select id="calc-condo">
+          <option value="madora">M Adora</option>
+          <option value="mhplatinum2">MH Platinum 2</option>
+          <option value="rica">Rica Residence</option>
           <option value="mvertica">M Vertica</option>
-          <option value="metacity">Meta City Residence</option>
-          <option value="parc3">The PARC3</option>
-          <option value="nexus">Nexus Residence</option>
         </select>
       </label>
       <label class="calc-field">
@@ -2788,7 +2837,7 @@ footer {
 <footer>
   <div class="foot">
     <div class="brand">
-      <img class="logo-vitrox" src="logos.png" alt="Big Ben">
+      <span class="logo-campus-type on-dark">MIA<small>Malaysian Institute of Art</small></span>
       <span class="x">×</span>
       <img class="logo-belive" src="beLive_Logo_F_fit_w.png" alt="beLive">
     </div>
@@ -2813,11 +2862,65 @@ const panels = document.querySelectorAll('.res-panel');
 const routePanels = document.querySelectorAll('.route-panel');
 const roomsStrip = document.getElementById('rooms-strip');
 
-// Room rates as supplied. No `img` is set for these residences because no room
-// photography was provided - the card falls back to a neutral placeholder rather
-// than borrowing another property's photos. Add `img:` per room to show a shot.
-// Sizes are not shown because no sq ft figures were supplied; add `size:` for them.
+// Room rates. M Vertica's rates and photography are its own. The rate cards on
+// M Adora, MH Platinum 2 and Rica were carried over from the previous line-up
+// when the page moved from Big Ben to MIA - they are placeholders with the right
+// shape, NOT confirmed rates for these buildings.
+// TODO VERIFY: confirm every rate below with BeLive before this page goes live.
+// Unit counts, storeys, sizes and facility lists ARE researched per building.
+// No `img` is set outside M Vertica because no photography was supplied - each
+// card falls back to a neutral placeholder rather than borrowing another
+// property's photos. Add `img:` per room to show a shot.
 const roomData = {
+  madora: {
+    label: 'M Adora',
+    rooms: [
+      { name: 'Master Room',  now: 'RM1,200' },
+      { name: 'Queen Room',   now: 'RM800'   },
+      { name: 'Balcony Room', now: 'RM800'   },
+    ],
+    specs: [
+      { v: '31', l: 'Storeys' },
+      { v: '677', l: 'Units' },
+      { v: '850-1,200', l: 'sq ft' },
+    ],
+    facilities: ['Swimming Pool','Cantilevered Sky Gym','Sky Bridge (L29)','Sky Deck','Island Jacuzzi',
+      'Badminton Court','Multipurpose Hall','Games Room','Computer & Study Room','Nursery',
+      "Children's Playground",'Herb Garden','Reflexology Path','BBQ Trellis','Sunken Lounge','Family Pavilion'],
+  },
+  mhplatinum2: {
+    label: 'MH Platinum 2',
+    rooms: [
+      { name: 'Supreme Master', now: 'RM850' },
+      { name: 'Supreme Middle', now: 'RM750' },
+      { name: 'Queen Common',   now: 'RM750' },
+      { name: 'Single Common',  now: 'RM500' },
+    ],
+    specs: [
+      { v: '3', l: 'Blocks' },
+      { v: '1,254', l: 'Units' },
+      { v: '663-857', l: 'sq ft' },
+    ],
+    facilities: ['Swimming Pool','Spa Pool','Sauna','Gymnasium','Jogging Track',
+      "Children's Playground",'Multipurpose Hall','Retail Podium','24-Hour Security'],
+  },
+  rica: {
+    label: 'Rica Residence',
+    rooms: [
+      { name: 'Master Room', now: 'RM1,100' },
+      { name: 'Queen Room',  now: 'RM800'   },
+      { name: 'Queen Room',  now: 'RM700'   },
+      { name: 'Single Room', now: 'RM600'   },
+    ],
+    specs: [
+      { v: '39', l: 'Storeys' },
+      { v: '473', l: 'Units' },
+      { v: '2021', l: 'Completed' },
+    ],
+    facilities: ['Swimming Pool','Wading Pool','Gymnasium','Sauna','Squash Court','Tennis Court',
+      'Jogging Track','BBQ Terrace','Open-Air Theatre','Trampoline Park','Glass Sky Bridge',
+      'Function Room','Cafe','Minimart',"Children's Playground",'24-Hour Security'],
+  },
   mvertica: {
     label: 'M Vertica',
     rooms: [
@@ -2828,8 +2931,8 @@ const roomData = {
       { name: 'Single Room', now: 'RM700',   img: 'BeLive_MVertica_Single_Room.JPG', pos: '50% 72%' },
     ],
     specs: [
-      { v: '3,600', l: 'Units' },
-      { v: '38', l: 'Facilities' },
+      { v: '5', l: 'Towers' },
+      { v: '3,684', l: 'Units' },
       { v: '850-1,000', l: 'sq ft' },
     ],
     facilities: ['Swimming Pool','Jacuzzi','Yoga Deck','Gymnasium','Badminton Court','Tennis Court',
@@ -2845,92 +2948,19 @@ const roomData = {
       { img: 'BeLive_MVertica_Yard.png',    label: 'Yard',        alt: 'M Vertica yard and laundry area' },
     ],
   },
-  metacity: {
-    label: 'Meta City Residence',
-    rooms: [
-      { name: 'Supreme Master', now: 'RM850', img: 'BeLive_MetaCity_Master_Room.png' },
-      { name: 'Supreme Middle', now: 'RM750', img: 'BeLive_MetaCity_Supreme_Middle_Room.png' },
-      { name: 'Queen Common',   now: 'RM750', img: 'BeLive_MetaCity_Queen_Room.jpg' },
-      { name: 'Single Common',  now: 'RM500', img: 'BeLive_MetaCity_Single_Room.png' },
-    ],
-    specs: [
-      { v: '4', l: 'Towers' },
-      { v: '1,452', l: 'Units' },
-      { v: '450-1,230', l: 'sq ft' },
-    ],
-    facilities: ['Swimming Pool','Jacuzzi','Gymnasium','Sky Lounge','Nursery','Launderette',
-      'Reading Room','Community Plaza','Games Room','BBQ Area','Meeting Rooms'],
-    // Pool and gym have captioned tiles below; the garden tile has no matching chip.
-    photographed: ['Swimming Pool','Gymnasium'],
-    common: [
-      { img: 'BeLive_MetaCity_Dining_Area.png', label: 'Common Area', alt: 'Meta City shared dining and common area' },
-      { img: 'BeLive_MetaCity_Kitchen.png',     label: 'Kitchen',     alt: 'Meta City shared kitchen' },
-      { img: 'BeLive_MetaCity_Yard.png',        label: 'Yard',        alt: 'Meta City yard and laundry area' },
-    ],
-  },
-  parc3: {
-    label: 'The PARC3',
-    rooms: [
-      { name: 'Master Room', now: 'RM1,100', img: 'BeLive_Parc3_Master.JPG' },
-      // TODO VERIFY: both of these were supplied as "Queen Room" at different
-      // rates. The photos (Queen1 / Queen2) show they are different rooms, so
-      // they still want distinguishing names.
-      { name: 'Queen Room',  now: 'RM800',   img: 'BeLive_Parc3_Queen1.JPG' },
-      { name: 'Queen Room',  now: 'RM700',   img: 'BeLive_Parc3_Queen2.JPG' },
-      { name: 'Single Room', now: 'RM600',   img: 'BeLive_Parc3_Single.JPG' },
-    ],
-    specs: [
-      { v: '39', l: 'Storeys' },
-      { v: '793', l: 'Units' },
-      { v: '2021', l: 'Completed' },
-    ],
-    facilities: ['Swimming Pool','Gym & Dancing Room','Basketball Court','Badminton Court',
-      'Celebrity Kitchen','Games Room','Meeting & Reading Room','Multipurpose Hall','Moonlight Deck',
-      "Children's Playground",'Community Garden'],
-    photographed: ['Swimming Pool','Gym & Dancing Room','Meeting & Reading Room'],
-    common: [
-      { img: 'BeLive_Parc3_Dining.JPG',          label: 'Common Area', alt: 'The PARC3 shared dining and common area' },
-      { img: 'BeLive_Parc3_Kitchen.JPG',         label: 'Kitchen',     alt: 'The PARC3 shared kitchen' },
-      { img: 'BeLive_Parc3_Washing_Machine.png', label: 'Yard',        alt: 'The PARC3 yard and laundry area' },
-    ],
-  },
-  nexus: {
-    label: 'Nexus Residence',
-    rooms: [
-      { name: 'Master Room',  now: 'RM1,200', img: 'BeLive_Nexus_Master_Room.png' },
-      { name: 'Queen Room',   now: 'RM800',   img: 'BeLive_Nexus_Queen_Room.png' },
-      { name: 'Balcony Room', now: 'RM800',   img: 'BeLive_Nexus_Balcony_Room.png' },
-    ],
-    specs: [
-      { v: '41', l: 'Storeys' },
-      { v: '507', l: 'Units' },
-      { v: '150 m', l: 'To MRT' },
-    ],
-    facilities: ['Sky Infinity Pool','Sky Lounge','Gymnasium','BBQ Area',"Children's Playground",
-      'Mini Market','Jogging Track','24-Hour Security','GreenRE Gold'],
-    photographed: ['Sky Infinity Pool','Gymnasium','BBQ Area'],
-    common: [
-      { img: 'BeLive_Nexus_Dining.png',  label: 'Common Area', alt: 'Nexus Residence shared dining and common area' },
-      { img: 'BeLive_Nexus_Kitchen.png', label: 'Kitchen',     alt: 'Nexus Residence shared kitchen' },
-      { img: 'BeLive_Nexus_Yard.png',    label: 'Yard',        alt: 'Nexus Residence yard and laundry area' },
-    ],
-  },
-  uno: {
-    label: 'UNO',
+  unio: {
+    label: 'Unio Residence',
     comingSoon: true,
     rooms: [],
     specs: [
-      { v: '30', l: 'Storeys' },
-      { v: '349', l: 'Units' },
-      { v: '55', l: 'Facilities' },
+      { v: '36', l: 'Storeys' },
+      { v: '520', l: 'Units' },
+      { v: '866-1,192', l: 'sq ft' },
     ],
-    facilities: ['Infinity Pool','Indoor & Outdoor Gym','Outdoor CrossFit Ground',
-      '417 m Cycling / Jogging Track','100 m Sprint Track','Sports Courts','Kenduri Hall',
-      'Urban Farm','Pet Garden','Car Wash Bay','EV Charging','Parcel Lockers'],
-    // Pool and gym have tiles below. The game-room tile has no matching chip
-    // (UNO's list has no "Games Room"), so nothing is suppressed for it.
-    photographed: ['Infinity Pool','Indoor & Outdoor Gym'],
-    // No common-area photos supplied, so Shared Spaces stays hidden for UNO.
+    facilities: ['60 m Infinity Pool','Rooftop Gymnasium','Outdoor Fitness Deck','Badminton Court',
+      'Basketball Court','Sky Amphitheatre Lounge','BBQ & Teppanyaki Corner','Business Lounge',
+      "Children's Playground",'GBI-Certified','24-Hour Security'],
+    // No common-area photos supplied, so Shared Spaces stays hidden for Unio.
   },
 };
 const specsHtml = d => (d.specs || []).map(x =>
@@ -3085,7 +3115,7 @@ Object.keys(roomData).forEach(key => {
   if (fc) fc.innerHTML = facilitiesHtml(roomData[key]);
 });
 
-activateResidence('mvertica');
+activateResidence('madora');
 
 // --- Payment calculator ---
 (function initPaymentCalculator() {
@@ -3095,11 +3125,11 @@ activateResidence('mvertica');
   const breakdown = document.getElementById('calc-breakdown');
   if (!condoSel || !roomSel || !carparkSel || !breakdown) return;
 
-  // UNO is omitted on purpose: it has no published rates yet, so there is
+  // Unio is omitted on purpose: it has no published rates yet, so there is
   // nothing for the calculator to work from.
   const condoLabels = {
-    mvertica: 'M Vertica', metacity: 'Meta City Residence',
-    parc3: 'The PARC3', nexus: 'Nexus Residence',
+    madora: 'M Adora', mhplatinum2: 'MH Platinum 2',
+    rica: 'Rica Residence', mvertica: 'M Vertica',
   };
   const FEES = {
     adminMoveIn: 529,    // one-time admin & move-in fee (SST-inclusive)
@@ -3161,108 +3191,86 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 window.addEventListener('load', () => {
   if (typeof L === 'undefined') return;
 
-  // Big Ben — plus code 5P77+52 Kuala Lumpur (full: 6PM35P77+52),
-  // decoded to the coordinates below. This sets the map centre, both
-  // catchment rings and every computed distance.
-  const BIGBEN = [3.162938, 101.712563];
+  // MIA — Malaysian Institute of Art, 294-299 Jalan Bandar 11, Taman Melawati,
+  // 53100 Kuala Lumpur. This sets the map centre, both catchment rings and
+  // every computed distance.
+  // TODO VERIFY: locality-level, anchored on the Jalan Bandar 11 shop rows in
+  // Taman Melawati rather than geocoded. Confirm against Google Maps.
+  const MIA = [3.213500, 101.748700];
 
-  // ---------------------------------------------------------------------------
-  // CATCHMENT DATA — Kuala Lumpur, centred on the campus plus code above.
-  // NOTE: the campus pin uses the exact plus code above. The surrounding landmark
-  // coordinates are still best-known approximations — accurate enough for a 22 km
-  // catchment view, but worth a spot-check.
-  // Every category has now been rebuilt for the Kuala Lumpur campus. Two things
-  // still need a human:
-  //   1. The pins marked locality-level below (all 5 residences, UniKL, UM,
-  //      Prince Court, Bangsar South) are anchored on a street or township, not
-  //      geocoded. Confirm each against Google Maps.
-  //   2. The Residences section further up this page still sells Acacia
-  //      Residences (Salak Perdana, 38 km away), which is no longer a map pin.
-  //      Map and room inventory therefore disagree.
-  // Distances in popups are computed straight-line from BIGBEN unless `dist` is set.
-  // ---------------------------------------------------------------------------
   const CATEGORIES = {
     residence: {
       label: 'Residences', icon: '🏠', color: '#FF6B1A',
-      places: 'Big Ben (★) · M Vertica · NEXUS Taman Pertama · Parc 3 · Meta City · UNO Cyberjaya',
+      places: 'MIA (★) · M Adora · MH Platinum 2 · Rica Residence · M Vertica · Unio Residence',
       stat: '<strong>5 BeLive</strong> co-living residences',
       defaultOn: true,
     },
     education: {
       label: 'Education', icon: '🎓', color: '#0F766E',
-      places: 'Universiti Kuala Lumpur · Universiti Malaya · TAR UMT Setapak · IIUM Gombak',
-      stat: '<strong>4 universities</strong> in the catchment',
+      places: 'TAR UMT Setapak · IIUM Gombak · UCSI Springhill · Universiti Kuala Lumpur',
+      stat: '<strong>4 campuses</strong> in the catchment',
       hidden: true,
     },
     healthcare: {
       label: 'Healthcare', icon: '⚕️', color: '#DC2626',
-      places: 'Hospital Kuala Lumpur · Institut Jantung Negara · Prince Court Medical Centre',
-      stat: '<strong>3 hospitals</strong> within 2 km',
+      places: 'Columbia Asia Setapak · KPJ Ampang Puteri · Hospital Kuala Lumpur',
+      stat: '<strong>3 hospitals</strong> within 7 km',
     },
     commercial: {
       label: 'Commercial', icon: '🛍️', color: '#14B8A6',
-      places: 'Petronas Twin Towers (Suria KLCC) · Menara Kuala Lumpur · Quill City Mall',
-      stat: '<strong>3 landmarks &amp; malls</strong> within 2 km',
+      places: 'Melawati Mall · AEON Alpha Angle · Setapak Central',
+      stat: '<strong>Melawati Mall</strong> 450 m from campus',
     },
     employment: {
       label: 'Employment', icon: '💼', color: '#F59E0B',
-      places: 'Tun Razak Exchange · KL Sentral · Bangsar South',
-      stat: '<strong>TRX &amp; KL Sentral</strong> employment hubs',
+      places: 'Suria KLCC · Tun Razak Exchange · KL Sentral',
+      stat: '<strong>KLCC &amp; TRX</strong> employment hubs',
     },
   };
 
+  // ---------------------------------------------------------------------------
+  // CATCHMENT DATA — centred on the MIA campus in Taman Melawati.
+  // TODO VERIFY: every pin except M Vertica, TAR UMT, IIUM, HKL, KLCC, TRX and
+  // KL Sentral is LOCALITY-LEVEL — anchored on a street or township from the
+  // published address, not geocoded, because no geocoder is reachable from here.
+  // Accurate enough for a 22 km catchment view; confirm against Google Maps
+  // before anyone navigates by them.
+  // Distances in popups are computed straight-line from MIA unless `dist` is set.
+  // ---------------------------------------------------------------------------
   const PLACES = [
-    // Residences
-    { cat:'residence',  name:'Big Ben',                               desc:'Your campus — the ★ subject property.', coords:BIGBEN, home:true },
-    // Pin accuracy, checked against published references rather than estimated:
-    //   M Vertica - ON Taman Pertama MRT (3.1127389, 101.7292889, published).
-    //               555 Jalan Cheras is the station-linked development, so exact.
-    //   NEXUS     - 258 m from that station; listings say 150 m by covered
-    //               walkway, so the position is right to within ~100 m.
-    //   Parc 3    - CORRECTED. The earlier pin (3.117200, 101.733300) sat 713 m
-    //               from Taman Pudu Ulu and outside its latitude range entirely
-    //               (the locality spans 3.12083-3.12645, 101.73004-101.73583 per
-    //               DBKL). Moved 622 m north into it, beside the recreation park
-    //               its name references (Residensi Pudu Alam Rekreasi).
-    // TODO VERIFY: Meta City (Seri Kembangan) and UNO (Persiaran Bestari,
-    // Cyberjaya) are still LOCALITY-LEVEL - no published coordinate was found for
-    // either, and no geocoder is reachable. Confirm both against Google Maps.
-    { cat:'residence',  name:'M Vertica',                             desc:'555 Jalan Cheras, Taman Pertama — linked to Taman Pertama MRT.', coords:[3.112739, 101.729289] },
-    { cat:'residence',  name:'NEXUS Residence Taman Pertama',         desc:'Taman Pertama, Cheras — BeLive co-living.', coords:[3.114500, 101.730800] },
-    { cat:'residence',  name:'Parc 3',                                desc:'Jalan Pudu Perdana, Taman Pudu Ulu, Cheras — 39 storeys, 793 units.', coords:[3.122500, 101.731500] },
-    { cat:'residence',  name:'Meta City Residences',                  desc:'Seri Kembangan, Selangor — transit-oriented mixed development.', coords:[3.027000, 101.708000] },
-    { cat:'residence',  name:'UNO Cyberjaya',                         desc:'UNO @ Nadayu 99, Persiaran Bestari, Cyberjaya.', coords:[2.926500, 101.656000] },
+    // Residences — nearest to furthest from campus.
+    { cat:'residence',  name:'Malaysian Institute of Art',            desc:'Your campus — 294-299 Jalan Bandar 11, Taman Melawati.', coords:MIA, home:true },
+    { cat:'residence',  name:'M Adora',                               desc:'Jalan Wangsa Melawati 1 — two 31-storey towers, 677 units. Walk to campus.', coords:[3.208500, 101.739500] },
+    { cat:'residence',  name:'MH Platinum 2',                         desc:'Jalan Usahawan 6, Setapak — three blocks, 1,254 units, completed 2025.', coords:[3.197500, 101.724500] },
+    { cat:'residence',  name:'Rica Residence',                        desc:'48 Jalan Perhentian, Sentul — 39 storeys, 473 units, 300 m to Sentul Barat MRT.', coords:[3.183500, 101.690500] },
+    // Published coordinate: M Vertica sits on Taman Pertama MRT (3.1127389, 101.7292889).
+    { cat:'residence',  name:'M Vertica',                             desc:'555 Jalan Cheras, Taman Pertama — five towers, 3,684 units, 500 m to Maluri.', coords:[3.112739, 101.729289] },
+    { cat:'residence',  name:'Unio Residence',                        desc:'Jalan Kepong — two 36-storey towers, 520 units, 400 m to Kepong Baru MRT.', coords:[3.204300, 101.639500] },
 
     // Education  (NOTE: this category carries `hidden: true` above, so these pins
-    // are not currently drawn. Corrected anyway so unhiding it is safe.)
-    // TAR UMT and IIUM coordinates are published values; UniKL is anchored on
-    // Sultan Ismail LRT beside 1016 Jalan Sultan Ismail and Universiti Malaya on
-    // its medical centre — both locality-level.
-    { cat:'education',  name:'Universiti Kuala Lumpur (UniKL)',        desc:'Main campus, 1016 Jalan Sultan Ismail.', coords:[3.161110, 101.694000] },
-    { cat:'education',  name:'Universiti Malaya (UM)',                 desc:'Malaysia\'s oldest public research university — Lembah Pantai.', coords:[3.121000, 101.654000] },
-    { cat:'education',  name:'TAR UMT Setapak',                        desc:'Tunku Abdul Rahman University of Management & Technology.', coords:[3.215860, 101.730490] },
-    { cat:'education',  name:'IIUM Gombak',                            desc:'International Islamic University Malaysia main campus.', coords:[3.252800, 101.737500] },
+    // are not currently drawn. Kept current anyway so unhiding it is safe.)
+    { cat:'education',  name:'TAR UMT Setapak',                       desc:'Tunku Abdul Rahman University of Management & Technology — 2 km from MIA.', coords:[3.215860, 101.730490] },
+    { cat:'education',  name:'IIUM Gombak',                           desc:'International Islamic University Malaysia main campus.', coords:[3.252800, 101.737500] },
+    { cat:'education',  name:'Universiti Kuala Lumpur (UniKL)',       desc:'Main campus, 1016 Jalan Sultan Ismail.', coords:[3.161110, 101.694000] },
+    { cat:'education',  name:'Universiti Malaya (UM)',                desc:'Malaysia\'s oldest public research university — Lembah Pantai.', coords:[3.121000, 101.654000] },
 
-    // Healthcare — HKL and IJN are published coordinates; Prince Court is
-    // anchored on 39 Jalan Kia Peng.
-    { cat:'healthcare', name:'Hospital Kuala Lumpur (HKL)',            desc:'Malaysia\'s largest government hospital — Jalan Pahang.', coords:[3.171444, 101.701806] },
-    { cat:'healthcare', name:'Institut Jantung Negara (IJN)',          desc:'National Heart Institute — 145 Jalan Tun Razak.', coords:[3.170410, 101.709550] },
-    { cat:'healthcare', name:'Prince Court Medical Centre',            desc:'Private tertiary hospital — 39 Jalan Kia Peng.', coords:[3.153300, 101.715000] },
+    // Healthcare — HKL is a published coordinate; the other two are locality-level.
+    { cat:'healthcare', name:'Columbia Asia Hospital Setapak',        desc:'Private hospital on Jalan Danau Saujana — closest to campus.', coords:[3.196600, 101.716700] },
+    { cat:'healthcare', name:'KPJ Ampang Puteri Specialist Hospital', desc:'Private specialist hospital — Jalan Mamanda 9, Ampang.', coords:[3.151200, 101.756200] },
+    { cat:'healthcare', name:'Hospital Kuala Lumpur (HKL)',           desc:'Malaysia\'s largest government hospital — Jalan Pahang.', coords:[3.171444, 101.701806] },
 
-    // Commercial
-    // Coordinates verified against published GPS references, not estimated.
-    { cat:'commercial', name:'Petronas Twin Towers',                   desc:'Suria KLCC mall, offices and the city\'s landmark towers.', coords:[3.157764, 101.711861] },
-    { cat:'commercial', name:'Menara Kuala Lumpur',                    desc:'KL Tower — observation deck and hilltop attraction.', coords:[3.152815, 101.703651] },
-    { cat:'commercial', name:'Quill City Mall',                        desc:'AEON-anchored mall on Jalan Sultan Ismail.', coords:[3.159843, 101.698360] },
+    // Commercial — the everyday catchment around Taman Melawati and Wangsa Maju.
+    { cat:'commercial', name:'Melawati Mall',                         desc:'Jalan Bandar Melawati — the campus\'s nearest mall, 450 m away.', coords:[3.209800, 101.750300] },
+    { cat:'commercial', name:'AEON Alpha Angle',                      desc:'Wangsa Maju shopping centre and hypermarket.', coords:[3.203500, 101.736500] },
+    { cat:'commercial', name:'Setapak Central',                       desc:'Mall on Jalan Genting Klang, beside MH Platinum 2.', coords:[3.199300, 101.717500] },
 
-    // Employment — TRX and KL Sentral are published coordinates; Bangsar South
-    // is anchored on the Kerinchi office cluster.
-    { cat:'employment', name:'Tun Razak Exchange (TRX)',               desc:'Kuala Lumpur\'s international finance district.', coords:[3.142640, 101.717950] },
-    { cat:'employment', name:'KL Sentral',                             desc:'Transport interchange and office hub — Brickfields.', coords:[3.134300, 101.686400] },
-    { cat:'employment', name:'Bangsar South',                          desc:'Kerinchi technology and shared-services offices.', coords:[3.110800, 101.665000] },
+    // Employment — published coordinates.
+    { cat:'employment', name:'Suria KLCC',                            desc:'Petronas Twin Towers — offices, mall and the city\'s landmark.', coords:[3.157764, 101.711861] },
+    { cat:'employment', name:'Tun Razak Exchange (TRX)',              desc:'Kuala Lumpur\'s international finance district.', coords:[3.142640, 101.717950] },
+    { cat:'employment', name:'KL Sentral',                            desc:'Transport interchange and office hub — Brickfields.', coords:[3.134300, 101.686400] },
   ];
 
-  const map = L.map('bigben-map', { scrollWheelZoom: false, zoomControl: true }).setView(BIGBEN, 13);
+  const map = L.map('mia-map', { scrollWheelZoom: false, zoomControl: true }).setView(MIA, 13);
   // CARTO's raster basemaps began requiring an API key (unauthenticated tiles
   // come back stamped "API KEY REQUIRED"), so this uses OpenStreetMap's standard
   // tiles instead - keyless, and the most dependable free raster source. OSM's
@@ -3277,13 +3285,13 @@ window.addEventListener('load', () => {
   }).addTo(map);
 
   // Catchment rings around the subject — inner 5 km + outer 10 km
-  const ring5km = L.circle(BIGBEN, {
+  const ring5km = L.circle(MIA, {
     radius: 5000,
     color: '#FF6B1A', weight: 1.5, opacity: 0.55,
     fillColor: '#FF6B1A', fillOpacity: 0.05,
     dashArray: '6 8',
   }).addTo(map);
-  const ring10km = L.circle(BIGBEN, {
+  const ring10km = L.circle(MIA, {
     radius: 10000,
     color: '#FF6B1A', weight: 1.2, opacity: 0.35,
     fillColor: '#FF6B1A', fillOpacity: 0.02,
@@ -3300,8 +3308,8 @@ window.addEventListener('load', () => {
   }).addTo(map);
   // Compute label positions north of subject for each ring
   const metersPerDegLat = 111320;
-  ringLabel([BIGBEN[0] + 5000 / metersPerDegLat, BIGBEN[1]], '5 km');
-  ringLabel([BIGBEN[0] + 10000 / metersPerDegLat, BIGBEN[1]], '10 km');
+  ringLabel([MIA[0] + 5000 / metersPerDegLat, MIA[1]], '5 km');
+  ringLabel([MIA[0] + 10000 / metersPerDegLat, MIA[1]], '10 km');
 
   const makeIcon = (color, isHome) => L.divIcon({
     className: '',
@@ -3315,10 +3323,10 @@ window.addEventListener('load', () => {
 
   const subjectLabel = L.divIcon({
     className: '',
-    html: `<div class="map-pin-label"><span class="star">★</span> Big Ben</div>`,
+    html: `<div class="map-pin-label"><span class="star">★</span> MIA</div>`,
     iconSize: [0, 0], iconAnchor: [-22, 8],
   });
-  L.marker(BIGBEN, { icon: subjectLabel, interactive: false, keyboard: false }).addTo(map);
+  L.marker(MIA, { icon: subjectLabel, interactive: false, keyboard: false }).addTo(map);
 
   const layers = {};
   Object.entries(CATEGORIES).forEach(([k, c]) => { if (!c.hidden) layers[k] = L.layerGroup(); });
@@ -3337,12 +3345,12 @@ window.addEventListener('load', () => {
     const marker = L.marker(p.coords, { icon: makeIcon(cat.color, !!p.home) });
     // Prefer an explicit (Google Maps) distance when provided; otherwise estimate straight-line.
     const distanceText = p.home ? null
-      : (p.dist != null ? `${p.dist} km` : `~${formatDistance(L.latLng(BIGBEN).distanceTo(L.latLng(p.coords)))}`);
+      : (p.dist != null ? `${p.dist} km` : `~${formatDistance(L.latLng(MIA).distanceTo(L.latLng(p.coords)))}`);
     marker.bindPopup(`
       <div class="pop-cat" style="color:${cat.color}">${cat.label}</div>
       <div class="pop-title">${p.name}</div>
       <div class="pop-desc">${p.desc}</div>
-      ${distanceText ? `<div class="pop-distance"><span class="pop-distance-icon">↔</span> <strong>${distanceText}</strong> from Big Ben</div>` : ''}
+      ${distanceText ? `<div class="pop-distance"><span class="pop-distance-icon">↔</span> <strong>${distanceText}</strong> from MIA</div>` : ''}
       ${p.tab ? `<a href="#residences" class="pop-cta" data-restab="${p.tab}">View More <span class="arrow">→</span></a>` : ''}
     `);
     // Permanent label above each pin — residences show the name + distance, others show the distance
@@ -3361,7 +3369,7 @@ window.addEventListener('load', () => {
     }
     marker.addTo(layers[p.cat]);
     if (isResidenceLabel) {
-      residenceLabels.push({ marker, away: L.latLng(BIGBEN).distanceTo(L.latLng(p.coords)) });
+      residenceLabels.push({ marker, away: L.latLng(MIA).distanceTo(L.latLng(p.coords)) });
     }
   });
 
@@ -3502,7 +3510,7 @@ window.addEventListener('load', () => {
 
   // Fit bounds to show subject + immediate residences with generous padding
   // Fit to a 22 km square around the campus so the entire 10 km ring is comfortably visible
-  map.fitBounds(L.latLng(BIGBEN).toBounds(22000), { padding: [20, 20] });
+  map.fitBounds(L.latLng(MIA).toBounds(22000), { padding: [20, 20] });
   updateResidenceDisplay();
 });
 
