@@ -77,31 +77,12 @@ nav.top {
 /* The dark footer reuses .brand, where an ink-coloured separator is invisible. */
 footer .brand .x { color: var(--paper); }
 
-/* Campus lock-up. logos.png is the BIG BEN EDUCATION GROUP mark and cannot stand
-   in for MIA, so the campus half of each lock-up is set as type instead. When an
-   MIA logo is supplied, swap this span back for
-   <img class="logo-vitrox" src="mia-logo.png" alt="Malaysian Institute of Art">
-   in the nav, the partnership card and the footer. */
-.logo-campus-type {
-  display: block; font-family: 'Poppins', sans-serif;
-  font-weight: 700; font-size: 26px; line-height: 1;
-  letter-spacing: -0.02em; color: var(--ink);
-}
-.logo-campus-type small {
-  display: block; margin-top: 4px;
-  font-size: 8.5px; font-weight: 500; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--orange-deep); white-space: nowrap;
-}
-.logo-campus-type.lg { font-size: 34px; }
-.logo-campus-type.lg small { font-size: 10px; margin-top: 5px; }
-.logo-campus-type.on-dark { color: var(--paper); }
-.logo-campus-type.on-dark small { color: var(--orange); }
-@media (max-width: 768px) {
-  .logo-campus-type { font-size: 18px; }
-  .logo-campus-type small { font-size: 7px; letter-spacing: 0.1em; }
-  .logo-campus-type.lg { font-size: 24px; }
-  .logo-campus-type.lg small { font-size: 8px; }
-}
+/* Campus lock-up. mia-logo.png is the supplied MIA mark, trimmed to the artwork
+   and kept transparent so it sits on the paper nav and the partnership card;
+   mia-logo-w.png is the reversed cut for the dark footer, where the black
+   geometry and wordmark are paper and the red accents stay red. Same two-file
+   pattern the beLive mark already uses. Both are height-locked by the
+   .logo-vitrox / .logo-campus rules above. */
 
 nav ul { list-style: none; display: flex; gap: 36px; }
 nav ul a {
@@ -2178,7 +2159,7 @@ footer {
 <nav class="top">
   <div class="brand">
     <div class="brand-logos">
-      <span class="logo-campus-type">MIA<small>Malaysian Institute of Art</small></span>
+      <img class="logo-vitrox" src="mia-logo.png" alt="Malaysian Institute of Art">
       <span class="x">×</span>
       <img class="logo-belive" src="beLive_Logo_F_fit.png" alt="beLive">
     </div>
@@ -2225,7 +2206,7 @@ footer {
   <div class="built-together-card">
     <div class="built-together-top">
       <div class="built-together-logos">
-        <span class="logo-campus-type lg">MIA<small>Malaysian Institute of Art</small></span>
+        <img class="logo-campus" src="mia-logo.png" alt="Malaysian Institute of Art">
         <span class="bt-x">×</span>
         <img src="beLive_Logo_F_fit.png" alt="beLive">
       </div>
@@ -2837,7 +2818,7 @@ footer {
 <footer>
   <div class="foot">
     <div class="brand">
-      <span class="logo-campus-type on-dark">MIA<small>Malaysian Institute of Art</small></span>
+      <img class="logo-vitrox" src="mia-logo-w.png" alt="Malaysian Institute of Art">
       <span class="x">×</span>
       <img class="logo-belive" src="beLive_Logo_F_fit_w.png" alt="beLive">
     </div>
