@@ -2335,7 +2335,7 @@ footer {
         <div class="map-overlay map-overlay-bottom">
           <div class="map-legend-card">
             <h4>Map Legend</h4>
-            <div class="map-legend-row"><span class="lg-star">★</span> MIA campus</div>
+            <div class="map-legend-row"><span class="lg-star">★</span> MIA campuses</div>
             <div class="map-legend-row"><span class="lg-dot" style="background:#FF6B1A"></span> Active category pin</div>
             <div class="map-legend-row"><span class="lg-ring"></span> 5 km inner catchment</div>
             <div class="map-legend-row"><span class="lg-ring lg-ring-outer"></span> 10 km outer catchment</div>
@@ -2356,7 +2356,7 @@ footer {
 
     <p class="map-footnote">
       Click a category card to filter the map — by default only nearby residences are shown.
-      Tick <strong>Show all</strong> to see every catchment pin at once. The ★ pin marks the MIA campus in Taman Melawati.
+      Tick <strong>Show all</strong> to see every catchment pin at once. The ★ pins mark MIA's two campuses — Taman Melawati and the City Campus. Distances are measured from Taman Melawati.
     </p>
   </div>
 </section>
@@ -3240,10 +3240,17 @@ window.addEventListener('load', () => {
   // Taman Melawati rather than geocoded. Confirm against Google Maps.
   const MIA = [3.213500, 101.748700];
 
+  // MIA's second campus, in the city centre. Decoded from plus code 5P42+7P
+  // (full 6PM35P42+7P), which puts it 1.1 km from KLCC and 8.3 km from Taman
+  // Melawati. The rings, the catchment and every "from MIA" distance stay
+  // anchored to the main campus above, because that is what the residences
+  // and the route guides are measured against.
+  const MIA_CITY = [3.155688, 101.701813];
+
   const CATEGORIES = {
     residence: {
       label: 'Residences', icon: '🏠', color: '#FF6B1A',
-      places: 'MIA (★) · M Adora · MH Platinum 2 · Rica Residence · M Vertica · Unio Residence',
+      places: 'MIA Taman Melawati (★) · MIA City Campus (★) · M Adora · MH Platinum 2 · Rica Residence · M Vertica · Unio Residence',
       stat: '<strong>5 BeLive</strong> co-living residences',
       defaultOn: true,
     },
@@ -3281,7 +3288,8 @@ window.addEventListener('load', () => {
   // ---------------------------------------------------------------------------
   const PLACES = [
     // Residences — nearest to furthest from campus.
-    { cat:'residence',  name:'Malaysian Institute of Art',            desc:'Your campus — 294-299 Jalan Bandar 11, Taman Melawati.', coords:MIA, home:true },
+    { cat:'residence',  name:'MIA — Taman Melawati',                   desc:'The main campus — 294-299 Jalan Bandar 11, Taman Melawati.', coords:MIA, home:true },
+    { cat:'residence',  name:'MIA — City Campus',                      desc:'The institute\'s second campus, in the city centre near KLCC.', coords:MIA_CITY, campus:true },
     { cat:'residence',  name:'M Adora',                               desc:'Jalan Wangsa Melawati 1 — two 31-storey towers, 677 units. Walk to campus.', coords:[3.208500, 101.739500] },
     { cat:'residence',  name:'MH Platinum 2',                         desc:'Jalan Usahawan 6, Setapak — three blocks, 1,254 units, completed 2025.', coords:[3.197500, 101.724500] },
     { cat:'residence',  name:'Rica Residence',                        desc:'48 Jalan Perhentian, Sentul — 39 storeys, 473 units, 300 m to Sentul Barat MRT.', coords:[3.183500, 101.690500] },
@@ -3363,12 +3371,14 @@ window.addEventListener('load', () => {
     popupAnchor: [0, -16],
   });
 
-  const subjectLabel = L.divIcon({
+  // Both campuses carry a permanent star label, named so they are told apart.
+  const campusLabel = (text) => L.divIcon({
     className: '',
-    html: `<div class="map-pin-label"><span class="star">★</span> MIA</div>`,
+    html: `<div class="map-pin-label"><span class="star">★</span> ${text}</div>`,
     iconSize: [0, 0], iconAnchor: [-22, 8],
   });
-  L.marker(MIA, { icon: subjectLabel, interactive: false, keyboard: false }).addTo(map);
+  L.marker(MIA,      { icon: campusLabel('MIA Taman Melawati'), interactive: false, keyboard: false }).addTo(map);
+  L.marker(MIA_CITY, { icon: campusLabel('MIA City Campus'),    interactive: false, keyboard: false }).addTo(map);
 
   const layers = {};
   Object.entries(CATEGORIES).forEach(([k, c]) => { if (!c.hidden) layers[k] = L.layerGroup(); });
@@ -3384,7 +3394,7 @@ window.addEventListener('load', () => {
   PLACES.forEach(p => {
     const cat = CATEGORIES[p.cat];
     if (!cat || cat.hidden) return;
-    const marker = L.marker(p.coords, { icon: makeIcon(cat.color, !!p.home) });
+    const marker = L.marker(p.coords, { icon: makeIcon(cat.color, !!p.home || !!p.campus) });
     // Prefer an explicit (Google Maps) distance when provided; otherwise estimate straight-line.
     const distanceText = p.home ? null
       : (p.dist != null ? `${p.dist} km` : `~${formatDistance(L.latLng(MIA).distanceTo(L.latLng(p.coords)))}`);
@@ -3396,7 +3406,7 @@ window.addEventListener('load', () => {
       ${p.tab ? `<a href="#residences" class="pop-cta" data-restab="${p.tab}">View More <span class="arrow">→</span></a>` : ''}
     `);
     // Permanent label above each pin — residences show the name + distance, others show the distance
-    const isResidenceLabel = p.cat === 'residence' && !p.home;
+    const isResidenceLabel = p.cat === 'residence' && !p.home && !p.campus;
     const tooltipText = isResidenceLabel
       ? (distanceText ? `${p.name}<span class="res-label-dist">${distanceText}</span>` : p.name)
       : distanceText;
