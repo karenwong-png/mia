@@ -547,12 +547,16 @@ section { padding: 100px 40px; position: relative; }
   transition: transform 0.5s ease;
 }
 .built-together-photos figure:hover img { transform: scale(1.05); }
+/* Two photos sit side by side and drop to a stack on a narrow screen. */
+.built-together-photos.two-up { grid-template-columns: 1fr 1fr; gap: 20px; }
+.built-together-photos.two-up figure { max-width: none; }
 @media (max-width: 768px) {
   .built-together-card { padding: 32px 22px; text-align: center; }
   .built-together-top { grid-template-columns: 1fr; gap: 24px; }
   .built-together-logos { justify-content: center; flex-wrap: wrap; gap: 12px; }
   .built-together-logos img { height: 38px; max-width: 42%; object-fit: contain; }
   .built-together-logos img.logo-campus { height: 28px; }
+  .built-together-photos.two-up { grid-template-columns: 1fr; }
   .built-together-photos { grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
   .built-together { padding: 50px 16px; }
 }
@@ -1006,7 +1010,7 @@ section { padding: 100px 40px; position: relative; }
   transition: transform 0.4s ease;
 }
 .res-facility-photos figure:only-child { flex: 0 1 min(440px, 62%); }
-.res-facility-photos.four-up figure { flex: 0 1 calc(50% - 6px); }
+.res-facility-photos.four-up figure { flex: 0 1 calc(25% - 9px); }
 .res-facility-photos figure:hover img { transform: scale(1.04); }
 .res-facility-photos figcaption {
   position: absolute; left: 10px; bottom: 10px;
@@ -1016,7 +1020,8 @@ section { padding: 100px 40px; position: relative; }
   backdrop-filter: blur(8px);
 }
 @media (max-width: 700px) {
-  .res-facility-photos figure { flex-basis: 100%; }
+  .res-facility-photos figure,
+  .res-facility-photos.four-up figure { flex-basis: 100%; }
 }
 
 /* Room cards */
@@ -2217,6 +2222,10 @@ footer {
         <h2>Built Together with <em>MIA.</em></h2>
         <p>An exclusive co-living programme co-designed by BeLive and the Malaysian Institute of Art — built around how art, design and music students actually live, study and unwind around Taman Melawati.</p>
       </div>
+    </div>
+    <div class="built-together-photos two-up">
+      <figure><img src="BeLive_MIA_Partnership_Courtyard.jpg" alt="The BeLive and MIA teams together in the campus courtyard at Taman Melawati" loading="lazy" decoding="async"></figure>
+      <figure><img src="BeLive_MIA_Partnership_Campus.jpg" alt="The BeLive and MIA teams outside the Malaysian Institute of Art campus" loading="lazy" decoding="async"></figure>
     </div>
   </div>
 </section>
