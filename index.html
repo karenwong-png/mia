@@ -2781,6 +2781,13 @@ footer {
   <div class="calc-wrap">
     <div class="calc-controls">
       <label class="calc-field">
+        <span>Student Type</span>
+        <select id="calc-student">
+          <option value="local">Local student</option>
+          <option value="international">International student</option>
+        </select>
+      </label>
+      <label class="calc-field">
         <span>Residence</span>
         <select id="calc-condo">
           <option value="madora">M Adora</option>
@@ -3130,11 +3137,12 @@ activateResidence('madora');
 
 // --- Payment calculator ---
 (function initPaymentCalculator() {
+  const studentSel = document.getElementById('calc-student');
   const condoSel = document.getElementById('calc-condo');
   const roomSel = document.getElementById('calc-room');
   const carparkSel = document.getElementById('calc-carpark');
   const breakdown = document.getElementById('calc-breakdown');
-  if (!condoSel || !roomSel || !carparkSel || !breakdown) return;
+  if (!studentSel || !condoSel || !roomSel || !carparkSel || !breakdown) return;
 
   // Unio is omitted on purpose: it has no published rates yet, so there is
   // nothing for the calculator to work from.
@@ -3142,12 +3150,30 @@ activateResidence('madora');
     madora: 'M Adora', mhplatinum2: 'MH Platinum 2',
     rica: 'Rica Residence', mvertica: 'M Vertica',
   };
+  // Charged the same whoever is signing.
   const FEES = {
-    adminMoveIn: 529,    // one-time admin & move-in fee (SST-inclusive)
     carPark: 100,
     accessCard: 150,
-    rentalAddOn: 200,    // added to room price for all students
-    depositMultiple: 2,  // security deposit = room rental x 2 (multiple not shown to users)
+  };
+
+  // Everything that could differ between a local and an international student
+  // lives here, so a change is one number rather than a hunt through render().
+  // TODO VERIFY: only the international column survived on the page when the
+  // student-type selector was removed. The local column repeats it until BeLive
+  // confirms what actually differs - so the two currently total the same.
+  const STUDENT = {
+    local: {
+      label: 'Local student',
+      adminMoveIn: 529,    // one-time admin & move-in fee (SST-inclusive)
+      rentalAddOn: 200,    // added to the room's monthly rate
+      depositMultiple: 2,  // security deposit = room rental x this (not shown to users)
+    },
+    international: {
+      label: 'International student',
+      adminMoveIn: 529,
+      rentalAddOn: 200,
+      depositMultiple: 2,
+    },
   };
   const fmt = (n) => 'RM ' + n.toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const rentOf = (room) => parseFloat(String(room.now).replace(/[^0-9.]/g, '')) || 0;
@@ -3158,21 +3184,22 @@ activateResidence('madora');
   }
 
   function render() {
+    const who = STUDENT[studentSel.value] || STUDENT.local;
     const rooms = roomData[condoSel.value].rooms;
     const room = rooms[roomSel.value] || rooms[0];
     const baseRent = rentOf(room);
-    const rent = baseRent + FEES.rentalAddOn;
+    const rent = baseRent + who.rentalAddOn;
     const wantsCarpark = carparkSel.value === 'yes';
     const carpark = wantsCarpark ? FEES.carPark : 0;
     // Deposit follows the room rental.
-    const securityDeposit = baseRent * FEES.depositMultiple;
-    const total = FEES.adminMoveIn + rent + carpark + securityDeposit + FEES.accessCard;
+    const securityDeposit = baseRent * who.depositMultiple;
+    const total = who.adminMoveIn + rent + carpark + securityDeposit + FEES.accessCard;
     const rentNote = `${condoLabels[condoSel.value]} — ${room.name}`;
-    const totalNote = `12-month tenancy · International student · incl. 8% SST`;
+    const totalNote = `12-month tenancy · ${who.label} · incl. 8% SST`;
 
     breakdown.innerHTML = `
       <div class="payment-row group-head"><span class="pr-label">One-Time &amp; Monthly Fees</span></div>
-      <div class="payment-row"><div><span class="pr-label">Admin &amp; Move-In Fee</span><span class="pr-note">One-time, incl. 8% SST</span></div><span class="pr-value">${fmt(FEES.adminMoveIn)}</span></div>
+      <div class="payment-row"><div><span class="pr-label">Admin &amp; Move-In Fee</span><span class="pr-note">One-time, incl. 8% SST</span></div><span class="pr-value">${fmt(who.adminMoveIn)}</span></div>
       <div class="payment-row"><div><span class="pr-label">Rental Charges</span><span class="pr-note">${rentNote}</span></div><span class="pr-value">${fmt(rent)}</span></div>
       <div class="payment-row"><div><span class="pr-label">Car Park (Monthly)</span><span class="pr-note">${wantsCarpark ? 'Reserved bay added' : 'Not included'}</span></div><span class="pr-value${wantsCarpark ? '' : ' muted'}">${wantsCarpark ? fmt(FEES.carPark) : '—'}</span></div>
       <div class="payment-row group-head"><span class="pr-label">Refundable</span></div>
@@ -3183,6 +3210,7 @@ activateResidence('madora');
     `;
   }
 
+  studentSel.addEventListener('change', render);
   condoSel.addEventListener('change', () => { populateRooms(); render(); });
   roomSel.addEventListener('change', render);
   carparkSel.addEventListener('change', render);
