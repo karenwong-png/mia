@@ -1076,6 +1076,7 @@ section { padding: 100px 40px; position: relative; }
 .common-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
 }
+.common-grid.two-up { grid-template-columns: repeat(2, 1fr); }
 /* Route guides — wide, text-heavy infographics, so each runs full width and
    opens in the lightbox for anyone who needs to read the small print. The
    readable summary below each one carries the same facts as text, because the
@@ -2396,11 +2397,7 @@ footer {
   <!-- MH PLATINUM 2 -->
   <div class="res-panel" data-panel="mhplatinum2">
     <div class="res-photo">
-      <div class="res-photo-empty" role="img" aria-label="Photograph of MH Platinum 2 coming soon">
-        <span class="rpe-mark" aria-hidden="true">🏙</span>
-        <span class="rpe-name">MH Platinum 2</span>
-        <span class="rpe-note">Photography coming soon</span>
-      </div>
+      <img src="BeLive_MHPlatinum2_Tower.jpg" alt="Residensi MH Platinum 2 — three blocks over a retail podium at Setapak">
       <span class="photo-tag">MH Platinum 2 &middot; Setapak</span>
     </div>
     <div class="res-info">
@@ -2409,17 +2406,18 @@ footer {
       <div class="res-desc">The newest keys of the five. MH Group and Platinum Victory arranged three blocks and 1,254 units around a central courtyard on 4.72 acres of Jalan Usahawan 6, completed in June 2025. The facility list reads like a resort brief — swimming and spa pools, sauna, yoga deck, hammock garden, sunset deck and a jogging track threaded through the landscaping. Setapak Central, AEON Alpha Angle and Wangsa Maju LRT are minutes away; campus is 3.2 km east. Rooms are fully furnished and managed end to end by BeLive.</div>
       <div class="res-stats" id="mhplatinum2-stats"></div>
       <div class="res-facilities" id="mhplatinum2-facilities"></div>
+      <div class="res-facility-photos">
+        <figure><img src="BeLive_MHPlatinum2_Pool.jpg" alt="MH Platinum 2 swimming pool between the blocks" loading="lazy" decoding="async"><figcaption>Swimming Pool</figcaption></figure>
+        <figure><img src="BeLive_MHPlatinum2_Gymnasium.jpg" alt="MH Platinum 2 gymnasium" loading="lazy" decoding="async"><figcaption>Gymnasium</figcaption></figure>
+        <figure><img src="BeLive_MHPlatinum2_Playground.jpg" alt="MH Platinum 2 rooftop playground and landscaped deck" loading="lazy" decoding="async"><figcaption>Playground Deck</figcaption></figure>
+      </div>
     </div>
   </div>
 
   <!-- RICA RESIDENCE -->
   <div class="res-panel" data-panel="rica">
     <div class="res-photo">
-      <div class="res-photo-empty" role="img" aria-label="Photograph of Rica Residence coming soon">
-        <span class="rpe-mark" aria-hidden="true">🏙</span>
-        <span class="rpe-name">Rica Residence</span>
-        <span class="rpe-note">Photography coming soon</span>
-      </div>
+      <img src="BeLive_Rica_Tower.jpg" alt="Rica Residence — 39-storey tower at Sentul, Kuala Lumpur">
       <span class="photo-tag">Rica Residence &middot; Sentul</span>
     </div>
     <div class="res-info">
@@ -2428,6 +2426,11 @@ footer {
       <div class="res-desc">Rica Residence stands alone — one freehold Fajarbaru tower of 473 units climbing 39 storeys above Jalan Perhentian in Sentul, with landscaped gardens stitched in every three floors. Its two facility decks, on Level 8 and Level 33A, carry an infinity pool set against the KL skyline, a glass sky bridge, an open-air theatre, a trampoline park and an outdoor meditation garden. Sentul Barat MRT on the Putrajaya Line sits roughly 300 m from the lobby. Rooms are fully furnished and managed end to end by BeLive.</div>
       <div class="res-stats" id="rica-stats"></div>
       <div class="res-facilities" id="rica-facilities"></div>
+      <div class="res-facility-photos">
+        <figure><img src="BeLive_Rica_Pool.jpg" alt="Rica Residence infinity pool on the facilities deck" loading="lazy" decoding="async"><figcaption>Infinity Pool</figcaption></figure>
+        <figure><img src="BeLive_Rica_Gymnasium.jpg" alt="Rica Residence gymnasium overlooking the Kuala Lumpur skyline" loading="lazy" decoding="async"><figcaption>Gymnasium</figcaption></figure>
+        <figure><img src="BeLive_Rica_Sky_Deck.jpg" alt="Rica Residence rooftop sky deck with trampoline park and climbing wall" loading="lazy" decoding="async"><figcaption>Sky Deck</figcaption></figure>
+      </div>
     </div>
   </div>
 
@@ -2873,10 +2876,10 @@ const roomData = {
   mhplatinum2: {
     label: 'MH Platinum 2',
     rooms: [
-      { name: 'Studio',      now: 'RM1,300' },
-      { name: 'Master Room', now: 'RM1,100' },
-      { name: 'Double Room', now: 'RM800'   },
-      { name: 'Single Room', now: 'RM700'   },
+      { name: 'Studio',      now: 'RM1,300', img: 'BeLive_MHPlatinum2_Studio.jpg' },
+      { name: 'Master Room', now: 'RM1,100', img: 'BeLive_MHPlatinum2_Master_Bedroom.jpg' },
+      { name: 'Double Room', now: 'RM800',   img: 'BeLive_MHPlatinum2_Double_Bedroom.jpg' },
+      { name: 'Single Room', now: 'RM700',   img: 'BeLive_MHPlatinum2_Single_Bedroom.jpg' },
     ],
     specs: [
       { v: '3', l: 'Blocks' },
@@ -2887,13 +2890,18 @@ const roomData = {
       'Outdoor Fitness Area','Jogging Track','Reflexology Path','Central Courtyard','Hammock Garden',
       'Sunset Deck','Lounge Decks','Entertainment Hall','Multipurpose Hall','BBQ Area','Cafeteria',
       'Launderette',"Children's Playground",'24-Hour Security'],
+    photographed: ['Swimming Pool','Gymnasium',"Children's Playground"],
+    common: [
+      { img: 'BeLive_MHPlatinum2_Common_Area.jpg', label: 'Common Area', alt: 'MH Platinum 2 shared living and dining area' },
+      { img: 'BeLive_MHPlatinum2_Yard.jpg',        label: 'Yard',        alt: 'MH Platinum 2 yard with washing machine' },
+    ],
   },
   rica: {
     label: 'Rica Residence',
     rooms: [
-      { name: 'Master Room', now: 'RM1,100' },
-      { name: 'Double Room', now: 'RM800'   },
-      { name: 'Single Room', now: 'RM700'   },
+      { name: 'Master Room', now: 'RM1,100', img: 'BeLive_Rica_Master_Bedroom.jpg' },
+      { name: 'Double Room', now: 'RM800',   img: 'BeLive_Rica_Double_Bedroom.jpg' },
+      { name: 'Single Room', now: 'RM700',   img: 'BeLive_Rica_Single_Bedroom.jpg' },
     ],
     specs: [
       { v: '39', l: 'Storeys' },
@@ -2904,6 +2912,13 @@ const roomData = {
       'Outdoor Meditation Garden','Outdoor Swinging Beds','Gymnasium','Sauna','Tennis Court',
       'Squash Court','Jogging Track','BBQ Terrace','Function Room','Cafe','Minimart',
       "Children's Playground",'Sky Garden Every 3 Floors','24-Hour Security'],
+    // These three have captioned tiles below, so they are not repeated as chips.
+    photographed: ['Infinity Pool','Gymnasium','Trampoline Park'],
+    // Two shared-space shots supplied; the grid drops to two columns for them.
+    common: [
+      { img: 'BeLive_Rica_Common_Area.jpg', label: 'Common Area', alt: 'Rica Residence shared dining area and open kitchen' },
+      { img: 'BeLive_Rica_Yard.jpg',        label: 'Yard',        alt: 'Rica Residence yard with washer and dryer' },
+    ],
   },
   mvertica: {
     label: 'M Vertica',
@@ -3021,6 +3036,7 @@ function renderRooms(key) {
   // one property's common areas are never shown under another's name.
   if (commonStrip) commonStrip.hidden = !d.common;
   if (commonGridEl) {
+    commonGridEl.classList.toggle('two-up', (d.common || []).length === 2);
     commonGridEl.innerHTML = (d.common || []).map(c => `
       <div class="common-card">
         <div class="common-img"><img src="${c.img}" alt="${c.alt}" loading="lazy" decoding="async"${c.pos ? ` style="object-position:${c.pos}"` : ''}></div>
