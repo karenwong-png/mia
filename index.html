@@ -1006,6 +1006,7 @@ section { padding: 100px 40px; position: relative; }
   transition: transform 0.4s ease;
 }
 .res-facility-photos figure:only-child { flex: 0 1 min(440px, 62%); }
+.res-facility-photos.four-up figure { flex: 0 1 calc(50% - 6px); }
 .res-facility-photos figure:hover img { transform: scale(1.04); }
 .res-facility-photos figcaption {
   position: absolute; left: 10px; bottom: 10px;
@@ -2378,11 +2379,7 @@ footer {
   <!-- M ADORA -->
   <div class="res-panel active" data-panel="madora">
     <div class="res-photo">
-      <div class="res-photo-empty" role="img" aria-label="Photograph of M Adora coming soon">
-        <span class="rpe-mark" aria-hidden="true">🏙</span>
-        <span class="rpe-name">M Adora</span>
-        <span class="rpe-note">Photography coming soon</span>
-      </div>
+      <img src="BeLive_MAdora_Tower.jpg" alt="M Adora — two 31-storey towers above Wangsa Melawati, with the Kuala Lumpur skyline beyond">
       <span class="photo-tag">M Adora &middot; Wangsa Melawati</span>
     </div>
     <div class="res-info">
@@ -2391,6 +2388,12 @@ footer {
       <div class="res-desc">Mah Sing’s M Adora rises in two 31-storey towers over Jalan Wangsa Melawati 1, handed over ahead of schedule on a low-density 4.5-acre parcel. Thirty-five facilities crown it — an Olympic-length horizon pool, a cantilevered glass gymnasium fitted out with Technogym, and a sky bridge strung across Level 29 with the Melawati hills beyond. At 1.2 km it is the closest address to campus of the five: fifteen minutes on foot, five by car. Rooms are fully furnished and managed end to end by BeLive.</div>
       <div class="res-stats" id="madora-stats"></div>
       <div class="res-facilities" id="madora-facilities"></div>
+      <div class="res-facility-photos four-up">
+        <figure><img src="BeLive_MAdora_Pool.jpg" alt="M Adora horizon pool with poolside cabanas" loading="lazy" decoding="async"><figcaption>Horizon Pool</figcaption></figure>
+        <figure><img src="BeLive_MAdora_Gymnasium.jpg" alt="M Adora cantilevered glass gymnasium" loading="lazy" decoding="async"><figcaption>Sky Gymnasium</figcaption></figure>
+        <figure><img src="BeLive_MAdora_Games_Room.jpg" alt="M Adora games room with pool table and bar counter" loading="lazy" decoding="async"><figcaption>Games Room</figcaption></figure>
+        <figure><img src="BeLive_MAdora_Landscape_Deck.jpg" alt="M Adora landscaped deck and playground at sunset" loading="lazy" decoding="async"><figcaption>Landscape Deck</figcaption></figure>
+      </div>
     </div>
   </div>
 
@@ -2457,11 +2460,7 @@ footer {
   <!-- UNIO RESIDENCE -->
   <div class="res-panel" data-panel="unio">
     <div class="res-photo">
-      <div class="res-photo-empty" role="img" aria-label="Photograph of Unio Residence coming soon">
-        <span class="rpe-mark" aria-hidden="true">🏙</span>
-        <span class="rpe-name">Unio Residence</span>
-        <span class="rpe-note">Photography coming soon</span>
-      </div>
+      <img src="BeLive_Unio_Tower.jpg" alt="Unio Residence — 36-storey tower on Jalan Kepong beside the MRT viaduct">
       <span class="photo-tag">Unio Residence &middot; Kepong</span>
     </div>
     <div class="res-info">
@@ -2470,6 +2469,12 @@ footer {
       <div class="res-desc">Unio Residence closes the set — two 36-storey Aikbee towers on Jalan Kepong, completed in 2021 and built to Green Building Index standards. More than fifty facilities are stacked through it, crowned by a 60-metre rooftop infinity pool, a standalone gymnasium with a 360-degree view, a sky yoga deck on Level 36 and a sky amphitheatre lounge. Kepong Baru MRT on the Putrajaya Line is about 400 m away. Room types and rates are being finalised.</div>
       <div class="res-stats" id="unio-stats"></div>
       <div class="res-facilities" id="unio-facilities"></div>
+      <div class="res-facility-photos four-up">
+        <figure><img src="BeLive_Unio_Pool.jpg" alt="Unio Residence rooftop infinity pool beside the glass gymnasium pod" loading="lazy" decoding="async"><figcaption>Rooftop Infinity Pool</figcaption></figure>
+        <figure><img src="BeLive_Unio_Gymnasium.jpg" alt="Unio Residence standalone gymnasium with a 360-degree view" loading="lazy" decoding="async"><figcaption>360° Gymnasium</figcaption></figure>
+        <figure><img src="BeLive_Unio_Games_Lounge.jpg" alt="Unio Residence games lounge with pool and foosball tables" loading="lazy" decoding="async"><figcaption>Games Lounge</figcaption></figure>
+        <figure><img src="BeLive_Unio_Sky_Lawn.jpg" alt="Unio Residence rooftop sky lawn with planters and city views" loading="lazy" decoding="async"><figcaption>Sky Lawn</figcaption></figure>
+      </div>
     </div>
   </div>
 
@@ -2858,10 +2863,10 @@ const roomData = {
   madora: {
     label: 'M Adora',
     rooms: [
-      { name: 'Studio',      now: 'RM1,300' },
-      { name: 'Master Room', now: 'RM1,100' },
-      { name: 'Double Room', now: 'RM850'   },
-      { name: 'Single Room', now: 'RM700'   },
+      { name: 'Studio',      now: 'RM1,300', img: 'BeLive_MAdora_Studio.jpg' },
+      { name: 'Master Room', now: 'RM1,100', img: 'BeLive_MAdora_Master_Bedroom.jpg' },
+      { name: 'Double Room', now: 'RM850',   img: 'BeLive_MAdora_Double_Bedroom.jpg' },
+      { name: 'Single Room', now: 'RM700',   img: 'BeLive_MAdora_Single_Bedroom.jpg' },
     ],
     specs: [
       { v: '31', l: 'Storeys' },
@@ -2872,6 +2877,11 @@ const roomData = {
       'Sky Deck','Island Jacuzzi','Badminton Court','Games Room','Computer & Study Room',
       'Multipurpose Hall','Nursery',"Children's Playground",'Herb Garden','Reflexology Path',
       'Sunken Lounge','BBQ Trellis','Open Lawn','Family Pavilion'],
+    photographed: ['Olympic-Length Horizon Pool','Cantilevered Glass Gymnasium','Games Room'],
+    common: [
+      { img: 'BeLive_MAdora_Kitchen.jpg',  label: 'Kitchen',  alt: 'M Adora shared kitchen with induction hob and water dispenser' },
+      { img: 'BeLive_MAdora_Bathroom.jpg', label: 'Bathroom', alt: 'M Adora shared bathroom with rain shower and vanity' },
+    ],
   },
   mhplatinum2: {
     label: 'MH Platinum 2',
@@ -2957,8 +2967,9 @@ const roomData = {
     ],
     facilities: ['60 m Rooftop Infinity Pool','360° Standalone Gymnasium','Sky Yoga Deck (Level 36)',
       'Sky Amphitheatre Lounge','Outdoor Fitness Gym','Badminton Court','Basketball Court',
-      'BBQ & Teppanyaki Corner','Business Lounge',"Children's Playground",'GBI-Certified',
-      '24-Hour Security'],
+      'BBQ & Teppanyaki Corner','Business Lounge','Games Lounge','Sky Lawn',
+      "Children's Playground",'GBI-Certified','24-Hour Security'],
+    photographed: ['60 m Rooftop Infinity Pool','360° Standalone Gymnasium','Games Lounge','Sky Lawn'],
     // No common-area photos supplied, so Shared Spaces stays hidden for Unio.
   },
 };
