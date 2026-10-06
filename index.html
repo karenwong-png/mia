@@ -52,21 +52,40 @@ body {
 
 /* ---------- NAV ---------- */
 .nav-actions { display: flex; align-items: center; gap: 14px; }
-.lang-switch {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 7px 10px 7px 12px; border-radius: 100px;
+
+/* A listbox rather than a <select>: the button has to show just the code on a
+   phone while the open menu keeps the full "EN · English" label, and a native
+   select cannot style its closed state separately from its options. */
+.lang-switch { position: relative; }
+.lang-btn {
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  padding: 7px 12px 7px 14px; border-radius: 100px;
   border: 1px solid var(--line); background: rgba(255,255,255,0.6);
-  transition: border-color 0.2s;
-}
-.lang-switch:hover, .lang-switch:focus-within { border-color: var(--orange); }
-.lang-globe { font-size: 13px; line-height: 1; }
-.lang-switch select {
-  border: 0; background: none; outline: none; cursor: pointer;
   font-family: inherit; font-size: 13px; font-weight: 500; color: var(--ink);
-  padding-right: 2px;
+  cursor: pointer; transition: border-color 0.2s, background 0.2s;
 }
-.lang-switch select:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
-@media (max-width: 980px) { .lang-switch { padding: 6px 8px 6px 10px; } .lang-switch select { font-size: 12px; } }
+.lang-btn:hover, .lang-btn[aria-expanded="true"] { border-color: var(--orange); }
+.lang-btn:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.lang-sep { opacity: 0.4; }
+.lang-caret { opacity: 0.55; transition: transform 0.2s; flex: 0 0 auto; }
+.lang-btn[aria-expanded="true"] .lang-caret { transform: rotate(180deg); }
+
+.lang-menu {
+  position: absolute; top: calc(100% + 8px); inset-inline-start: 0;
+  display: block; min-width: 100%; margin: 0; padding: 6px; list-style: none; z-index: 200;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(20,20,20,0.16);
+}
+.lang-menu[hidden] { display: none !important; }
+.lang-menu li {
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+  padding: 8px 12px; border-radius: 10px; cursor: pointer;
+  font-size: 13px; font-weight: 500; color: var(--ink);
+}
+.lang-menu li:hover, .lang-menu li.active { background: rgba(255, 107, 26, 0.12); }
+.lang-menu li[aria-selected="true"] { color: var(--orange-deep); }
+
+@media (max-width: 980px) { .lang-btn { padding: 6px 10px 6px 12px; font-size: 12px; } }
 /* Arabic sets descenders below the baseline; the display face runs at
    line-height 1, which collides them. Give the big headings room. */
 html[lang="ar"] .display, html[lang="ar"] h1, html[lang="ar"] h2 { line-height: 1.25; }
@@ -112,18 +131,18 @@ footer .brand .x { color: var(--paper); }
    pattern the beLive mark already uses. Both are height-locked by the
    .logo-vitrox / .logo-campus rules above. */
 
-nav ul { list-style: none; display: flex; gap: 36px; }
-nav ul a {
+nav.top > ul { list-style: none; display: flex; gap: 36px; }
+nav.top > ul a {
   color: var(--ink); text-decoration: none; font-size: 14px;
   font-weight: 500; position: relative; transition: color 0.2s;
 }
-nav ul a:hover { color: var(--orange); }
-nav ul a::after {
+nav.top > ul a:hover { color: var(--orange); }
+nav.top > ul a::after {
   content: ''; position: absolute; left: 0; right: 0; bottom: -4px;
   height: 2px; background: var(--orange); transform: scaleX(0);
   transform-origin: left; transition: transform 0.3s;
 }
-nav ul a:hover::after { transform: scaleX(1); }
+nav.top > ul a:hover::after { transform: scaleX(1); }
 
 .cta-btn {
   display: inline-flex; align-items: center; gap: 8px;
@@ -143,14 +162,14 @@ nav ul a:hover::after { transform: scaleX(1); }
 /* The inline nav links give way to the brand + switcher + CTA row before the
    full mobile treatment kicks in: with the switcher added they no longer fit
    on a tablet. */
-@media (max-width: 980px) { nav ul { display: none; } }
+@media (max-width: 1024px) { nav.top > ul { display: none; } }
 
 /* Between the tablet cut-off and the desktop layout the row is tight in the
    wordier languages, so the links and the horizontal padding come in. */
 @media (max-width: 1100px) {
   nav.top { padding: 16px 24px; }
-  nav ul { gap: 22px; }
-  nav ul a { font-size: 13px; }
+  nav.top > ul { gap: 22px; }
+  nav.top > ul a { font-size: 13px; }
 }
 
 @media (max-width: 768px) {
@@ -173,15 +192,19 @@ nav ul a:hover::after { transform: scaleX(1); }
    lock-up is tightened here to keep the row inside a 320px viewport. */
 @media (max-width: 560px) {
   nav.top { gap: 6px; padding: 10px 12px; }
-  .lang-globe { display: none; }
   /* the tagline is the widest thing in the brand lock-up and it is the first to
-     go, so the switcher and the CTA keep their full labels */
+     go, so the CTA keeps its full label */
   .brand-tagline { display: none; }
   .brand img.logo-vitrox { height: 22px; }
   .brand img.logo-belive { height: 18px; }
   .nav-actions { gap: 6px; min-width: 0; }
-  .lang-switch { padding: 4px 7px; flex: 0 0 auto; }
-  .lang-switch select { font-size: 11px; }
+  .lang-switch { flex: 0 0 auto; }
+  /* the button falls back to the code; the open menu still reads in full */
+  .lang-btn { padding: 6px 8px 6px 10px; font-size: 11px; gap: 4px; }
+  .lang-btn .lang-sep, .lang-btn .lang-name { display: none; }
+  /* the button is now much narrower than the menu it opens, and sits near the
+     end of the row, so the menu hangs from its trailing edge instead */
+  .lang-menu { inset-inline-start: auto; inset-inline-end: 0; }
   nav.top .cta-btn { padding: 8px 11px; font-size: 12px; min-width: 0; white-space: nowrap; }
 }
 
@@ -2276,15 +2299,24 @@ footer {
     <li><a href="#how-to-book">How to Book</a></li>
   </ul>
   <div class="nav-actions">
-    <label class="lang-switch" data-i18n-skip>
-      <span class="lang-globe" aria-hidden="true">🌐</span>
-      <select id="lang-select" aria-label="Language">
-        <option value="en">English</option>
-        <option value="zh">中文</option>
-        <option value="ms">Melayu</option>
-        <option value="ar">العربية</option>
-      </select>
-    </label>
+    <div class="lang-switch" data-i18n-skip>
+      <button type="button" class="lang-btn" id="lang-btn" aria-haspopup="listbox"
+              aria-expanded="false" aria-controls="lang-menu" aria-label="Language">
+        <span class="lang-code">EN</span>
+        <span class="lang-sep" aria-hidden="true">·</span>
+        <span class="lang-name">English</span>
+        <svg class="lang-caret" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+          <path d="M2 4l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <ul class="lang-menu" id="lang-menu" role="listbox" aria-label="Language" hidden>
+        <li role="option" data-lang="en" aria-selected="true"><span class="lang-code">EN</span><span class="lang-sep" aria-hidden="true">·</span><span class="lang-name">English</span></li>
+        <li role="option" data-lang="zh" aria-selected="false"><span class="lang-code">中文</span><span class="lang-sep" aria-hidden="true">·</span><span class="lang-name">Chinese</span></li>
+        <li role="option" data-lang="ms" aria-selected="false"><span class="lang-code">BM</span><span class="lang-sep" aria-hidden="true">·</span><span class="lang-name">Bahasa Melayu</span></li>
+        <li role="option" data-lang="ar" aria-selected="false"><span class="lang-code">AR</span><span class="lang-sep" aria-hidden="true">·</span><span class="lang-name">العربية</span></li>
+      </ul>
+    </div>
     <a href="https://bit.ly/MIA_Accommodation_Partner" target="_blank" rel="noopener" class="cta-btn">Book Now <span class="arrow">→</span></a>
   </div>
 </nav>
@@ -3698,8 +3730,12 @@ window.addEventListener('load', () => {
 (function initLanguageSwitcher() {
   const DICT = window.BELIVE_I18N || {};
   const STORE = 'belive.lang';
-  const sel = document.getElementById('lang-select');
-  if (!sel) return;
+  const btn = document.getElementById('lang-btn');
+  const menu = document.getElementById('lang-menu');
+  if (!btn || !menu) return;
+  const items = Array.prototype.slice.call(menu.querySelectorAll('[role="option"]'));
+  const btnCode = btn.querySelector('.lang-code');
+  const btnName = btn.querySelector('.lang-name');
 
   const originals = new WeakMap();   // text node -> its English value
   const orderCache = {};             // lang -> phrase keys, longest first
@@ -3794,16 +3830,73 @@ window.addEventListener('load', () => {
 
   const setLang = (lang, persist) => {
     current = (DICT[lang] || lang === 'en') ? lang : 'en';
-    sel.value = current;
+    for (const li of items) {
+      const on = li.dataset.lang === current;
+      li.setAttribute('aria-selected', on ? 'true' : 'false');
+      if (on) {
+        // the button mirrors the chosen row; CSS hides the name on phones
+        btnCode.textContent = li.querySelector('.lang-code').textContent;
+        btnName.textContent = li.querySelector('.lang-name').textContent;
+      }
+    }
     paint(current);
     if (persist !== false) { try { localStorage.setItem(STORE, current); } catch (e) {} }
   };
+
+  // --- the listbox ---------------------------------------------------------
+  let activeIndex = 0;
+  const isOpen = () => !menu.hidden;
+  items.forEach((li, i) => { li.id = li.id || 'lang-opt-' + li.dataset.lang; });
+  const highlight = (i) => {
+    activeIndex = (i + items.length) % items.length;
+    items.forEach((li, k) => li.classList.toggle('active', k === activeIndex));
+    btn.setAttribute('aria-activedescendant', items[activeIndex].id);
+    items[activeIndex].scrollIntoView({ block: 'nearest' });
+  };
+  const open = () => {
+    menu.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    const i = items.findIndex((li) => li.dataset.lang === current);
+    highlight(i < 0 ? 0 : i);
+  };
+  const close = (refocus) => {
+    menu.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    items.forEach((li) => li.classList.remove('active'));
+    btn.removeAttribute('aria-activedescendant');
+    if (refocus) btn.focus();
+  };
+  const choose = (i) => { setLang(items[i].dataset.lang); close(true); };
+
+  btn.addEventListener('click', () => (isOpen() ? close(false) : open()));
+  items.forEach((li, i) => {
+    li.addEventListener('click', () => choose(i));
+    li.addEventListener('mousemove', () => highlight(i));
+  });
+  // Focus stays on the button the whole time, so one handler covers both states.
+  btn.addEventListener('keydown', (e) => {
+    if (!isOpen()) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault(); open();
+      }
+      return;
+    }
+    if (e.key === 'ArrowDown') { e.preventDefault(); highlight(activeIndex + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); highlight(activeIndex - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); highlight(0); }
+    else if (e.key === 'End') { e.preventDefault(); highlight(items.length - 1); }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(activeIndex); }
+    else if (e.key === 'Escape') { e.preventDefault(); close(true); }
+    else if (e.key === 'Tab') { close(false); }
+  });
+  document.addEventListener('click', (e) => {
+    if (isOpen() && !(e.target.closest && e.target.closest('.lang-switch'))) close(false);
+  });
 
   let saved = null;
   try { saved = localStorage.getItem(STORE); } catch (e) {}
   setLang(saved && (saved === 'en' || DICT[saved]) ? saved : 'en', false);
 
-  sel.addEventListener('change', () => setLang(sel.value));
   watch();
   window.addEventListener('load', () => { watch(); queueRepaint(); });
 })();
