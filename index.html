@@ -1520,8 +1520,11 @@ section { padding: 100px 40px; position: relative; }
   transition: background 0.2s, border-color 0.2s, opacity 0.2s;
 }
 .carousel-arrow:hover:not(:disabled) { background: var(--orange); border-color: var(--orange); color: #fff; }
-.carousel-arrow.prev { left: -22px; }
-.carousel-arrow.next { right: -22px; }
+/* Logical, not physical: Arabic reverses the strip, so "previous" has to move to
+   the right-hand edge. inset-inline-* follows the writing direction on its own,
+   which also keeps the narrow-screen override below working under RTL. */
+.carousel-arrow.prev { inset-inline-start: -22px; }
+.carousel-arrow.next { inset-inline-end: -22px; }
 .carousel-arrow:disabled { opacity: 0.25; cursor: default; }
 
 .room-card {
@@ -1568,8 +1571,8 @@ section { padding: 100px 40px; position: relative; }
 }
 @media (max-width: 540px) {
   .rooms-track .room-card { flex-basis: 100%; }
-  .carousel-arrow.prev { left: 4px; }
-  .carousel-arrow.next { right: 4px; }
+  .carousel-arrow.prev { inset-inline-start: 4px; }
+  .carousel-arrow.next { inset-inline-end: 4px; }
 }
 
 /* ---------- AMENITIES STRIP ---------- */
@@ -3203,16 +3206,22 @@ function initRoomsCarousel() {
     return card ? card.getBoundingClientRect().width + gap : viewport.clientWidth;
   };
 
-  // Derived from scrollLeft, never from an index counter, so it stays correct
-  // after a swipe, a trackpad scroll or a scrollbar drag - not just a click.
+  // Arabic puts the page in RTL, where the browser reports scrollLeft as 0 at
+  // the start of the strip and NEGATIVE towards the end. Everything below works
+  // in distance-from-start, so it reads the same in both directions.
+  const rtl = () => getComputedStyle(viewport).direction === 'rtl';
+  const fromStart = () => Math.abs(viewport.scrollLeft);
+
+  // Derived from the scroll position, never from an index counter, so it stays
+  // correct after a swipe, a trackpad scroll or a scrollbar drag - not just a click.
   const sync = () => {
     const max = viewport.scrollWidth - viewport.clientWidth;
-    prev.disabled = viewport.scrollLeft <= 2;
-    next.disabled = viewport.scrollLeft >= max - 2;
+    prev.disabled = fromStart() <= 2;
+    next.disabled = fromStart() >= max - 2;
   };
 
   const go = (dir) => viewport.scrollBy({
-    left: dir * step(),
+    left: (rtl() ? -dir : dir) * step(),
     behavior: reduceMotion.matches ? 'auto' : 'smooth',
   });
 
