@@ -51,6 +51,34 @@ body {
 .script { font-family: 'Poppins', sans-serif; font-weight: 700; }
 
 /* ---------- NAV ---------- */
+.nav-actions { display: flex; align-items: center; gap: 14px; }
+.lang-switch {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 10px 7px 12px; border-radius: 100px;
+  border: 1px solid var(--line); background: rgba(255,255,255,0.6);
+  transition: border-color 0.2s;
+}
+.lang-switch:hover, .lang-switch:focus-within { border-color: var(--orange); }
+.lang-globe { font-size: 13px; line-height: 1; }
+.lang-switch select {
+  border: 0; background: none; outline: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 500; color: var(--ink);
+  padding-right: 2px;
+}
+.lang-switch select:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
+@media (max-width: 980px) { .lang-switch { padding: 6px 8px 6px 10px; } .lang-switch select { font-size: 12px; } }
+/* Arabic sets descenders below the baseline; the display face runs at
+   line-height 1, which collides them. Give the big headings room. */
+html[lang="ar"] .display, html[lang="ar"] h1, html[lang="ar"] h2 { line-height: 1.25; }
+
+/* Arabic reverses the page, but the map must not reverse with it: Leaflet
+   positions panes, controls and attribution in physical pixels. */
+html[dir="rtl"] #mia-map,
+html[dir="rtl"] .leaflet-container,
+html[dir="rtl"] .leaflet-container * { direction: ltr; }
+html[dir="rtl"] .leaflet-popup-content,
+html[dir="rtl"] .map-legend-card { text-align: left; }
+
 nav.top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; justify-content: space-between; align-items: center;
@@ -112,9 +140,21 @@ nav ul a:hover::after { transform: scaleX(1); }
 .cta-btn .arrow { transition: transform 0.25s; }
 .cta-btn:hover .arrow { transform: translateX(4px); }
 
+/* The inline nav links give way to the brand + switcher + CTA row before the
+   full mobile treatment kicks in: with the switcher added they no longer fit
+   on a tablet. */
+@media (max-width: 980px) { nav ul { display: none; } }
+
+/* Between the tablet cut-off and the desktop layout the row is tight in the
+   wordier languages, so the links and the horizontal padding come in. */
+@media (max-width: 1100px) {
+  nav.top { padding: 16px 24px; }
+  nav ul { gap: 22px; }
+  nav ul a { font-size: 13px; }
+}
+
 @media (max-width: 768px) {
   nav.top { padding: 12px 16px; gap: 10px; }
-  nav ul { display: none; }
   .brand { gap: 3px; }
   .brand-logos { gap: 8px; }
   .brand img.logo-belive { height: 22px; }
@@ -126,6 +166,23 @@ nav ul a:hover::after { transform: scaleX(1); }
     padding: 9px 16px; font-size: 13px; flex: 0 0 auto;
   }
   nav.top .cta-btn .arrow { display: none; }
+}
+
+/* Narrow phones: the nav carries the brand, the switcher and the booking CTA
+   on one fixed row. Translated CTA labels are wider than "Book Now", so the
+   lock-up is tightened here to keep the row inside a 320px viewport. */
+@media (max-width: 560px) {
+  nav.top { gap: 6px; padding: 10px 12px; }
+  .lang-globe { display: none; }
+  /* the tagline is the widest thing in the brand lock-up and it is the first to
+     go, so the switcher and the CTA keep their full labels */
+  .brand-tagline { display: none; }
+  .brand img.logo-vitrox { height: 22px; }
+  .brand img.logo-belive { height: 18px; }
+  .nav-actions { gap: 6px; min-width: 0; }
+  .lang-switch { padding: 4px 7px; flex: 0 0 auto; }
+  .lang-switch select { font-size: 11px; }
+  nav.top .cta-btn { padding: 8px 11px; font-size: 12px; min-width: 0; white-space: nowrap; }
 }
 
 /* ---------- HERO ---------- */
@@ -1413,6 +1470,17 @@ section { padding: 100px 40px; position: relative; }
   .emergency-chip { left: 8px; bottom: 8px; font-size: 11px; padding: 7px 12px; }
 }
 
+/* The three photo chips are single-line by design. Translated labels are longer
+   than the English ones, so on phones they wrap inside the photo instead of
+   running off the page. */
+@media (max-width: 560px) {
+  .lock-tag, .utility-chip, .emergency-chip {
+    white-space: normal;
+    max-width: calc(100% - 16px);
+    line-height: 1.35;
+  }
+}
+
 .rooms-carousel { position: relative; }
 .rooms-viewport { overflow: hidden; }
 .rooms-track { display: flex; gap: 20px; transition: transform 0.45s cubic-bezier(.22,.61,.36,1); will-change: transform; }
@@ -2179,7 +2247,18 @@ footer {
     <li><a href="#difference">BeLive Difference</a></li>
     <li><a href="#how-to-book">How to Book</a></li>
   </ul>
-  <a href="https://bit.ly/MIA_Accommodation_Partner" target="_blank" rel="noopener" class="cta-btn">Book Now <span class="arrow">→</span></a>
+  <div class="nav-actions">
+    <label class="lang-switch" data-i18n-skip>
+      <span class="lang-globe" aria-hidden="true">🌐</span>
+      <select id="lang-select" aria-label="Language">
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+        <option value="ms">Melayu</option>
+        <option value="ar">العربية</option>
+      </select>
+    </label>
+    <a href="https://bit.ly/MIA_Accommodation_Partner" target="_blank" rel="noopener" class="cta-btn">Book Now <span class="arrow">→</span></a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -2858,6 +2937,10 @@ footer {
   <button class="lightbox-close" type="button" aria-label="Close">&times;</button>
   <img alt="">
 </div>
+
+<!-- Translation dictionary for the language switcher. Loaded synchronously so
+     window.BELIVE_I18N exists before initLanguageSwitcher() runs below. -->
+<script src="i18n.js"></script>
 
 <script>
 // --- Tab switching for residences ---
@@ -3560,6 +3643,126 @@ window.addEventListener('load', () => {
   map.fitBounds(L.latLng(MIA).toBounds(22000), { padding: [20, 20] });
   updateResidenceDisplay();
 });
+
+// ---------------------------------------------------------------------------
+// LANGUAGE SWITCHER
+// Text nodes are matched against a dictionary keyed on the exact English
+// string (whitespace-normalised). Originals live in a WeakMap, so switching in
+// any order is lossless and English is restored byte-for-byte rather than
+// back-translated. Nothing is annotated with data-i18n.
+// ---------------------------------------------------------------------------
+(function initLanguageSwitcher() {
+  const DICT = window.BELIVE_I18N || {};
+  const STORE = 'belive.lang';
+  const sel = document.getElementById('lang-select');
+  if (!sel) return;
+
+  const originals = new WeakMap();   // text node -> its English value
+  const orderCache = {};             // lang -> phrase keys, longest first
+  let current = 'en';
+  let applying = false;              // guards the observers against our own writes
+
+  const norm = (t) => t.trim().replace(/\s+/g, ' ');
+
+  const phraseOrder = (lang) => {
+    if (!orderCache[lang]) {
+      const ph = (DICT[lang] && DICT[lang].phrases) || {};
+      // LONGEST KEY FIRST, so "Single Room" cannot match inside "Mini Single Room".
+      orderCache[lang] = Object.keys(ph).sort((a, b) => b.length - a.length);
+    }
+    return orderCache[lang];
+  };
+
+  const translate = (key, lang) => {
+    const d = DICT[lang];
+    if (!d) return undefined;
+    // "" is a legitimate translation (a fragment that collapses in another
+    // language), so test for undefined rather than for truthiness.
+    const whole = d.full[key];
+    if (whole !== undefined) return whole;
+    let out = key, hit = false;
+    for (const from of phraseOrder(lang)) {
+      if (out.indexOf(from) !== -1) { out = out.split(from).join(d.phrases[from]); hit = true; }
+    }
+    return hit ? out : undefined;
+  };
+
+  const collect = (root) => {
+    const nodes = [];
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(n) {
+        const el = n.parentElement;
+        if (!el) return NodeFilter.FILTER_REJECT;
+        const tag = el.tagName;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TEXTAREA') return NodeFilter.FILTER_REJECT;
+        // the switcher shows each language in its own script, so it never translates;
+        // OpenStreetMap's own attribution stays as the licence requires.
+        if (el.closest('[data-i18n-skip], .leaflet-control-attribution')) return NodeFilter.FILTER_REJECT;
+        // A node we have already translated must stay in the walk even if its
+        // translation was "" - otherwise switching back to English would never
+        // reach it and the fragment would be lost.
+        if (originals.has(n)) return NodeFilter.FILTER_ACCEPT;
+        return n.nodeValue && n.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      },
+    });
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) nodes.push(n);
+    return nodes;
+  };
+
+  const paint = (lang) => {
+    applying = true;
+    for (const n of collect(document.body)) {
+      if (!originals.has(n)) originals.set(n, n.nodeValue);
+      const orig = originals.get(n);
+      if (lang === 'en') { if (n.nodeValue !== orig) n.nodeValue = orig; continue; }
+      const lead = orig.match(/^\s*/)[0];
+      const trail = orig.match(/\s*$/)[0];
+      const t = translate(norm(orig), lang);
+      // Place names, brand names and anything absent from the dictionary fall
+      // through untouched, which is what keeps them in English.
+      n.nodeValue = (t === undefined) ? orig : lead + t + trail;
+    }
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    applying = false;
+  };
+
+  // Content built by JS lands after the language is applied and would stay
+  // English: room cards, the payment breakdown, the room dropdown, the shared
+  // spaces grid, and the map filter cards - which are built on window 'load',
+  // later than everything else.
+  const WATCHED = ['#rooms-strip', '#common-grid', '#calc-breakdown', '#calc-room',
+                   '#map-filters', '#mia-map'];
+  let repaintQueued = false;
+  const queueRepaint = () => {
+    if (applying || current === 'en' || repaintQueued) return;
+    repaintQueued = true;
+    requestAnimationFrame(() => { repaintQueued = false; paint(current); });
+  };
+  const watch = () => {
+    for (const q of WATCHED) {
+      const el = document.querySelector(q);
+      if (!el || el.__i18nWatched) continue;
+      el.__i18nWatched = true;
+      new MutationObserver(queueRepaint).observe(el, { childList: true, subtree: true, characterData: true });
+    }
+  };
+
+  const setLang = (lang, persist) => {
+    current = (DICT[lang] || lang === 'en') ? lang : 'en';
+    sel.value = current;
+    paint(current);
+    if (persist !== false) { try { localStorage.setItem(STORE, current); } catch (e) {} }
+  };
+
+  let saved = null;
+  try { saved = localStorage.getItem(STORE); } catch (e) {}
+  setLang(saved && (saved === 'en' || DICT[saved]) ? saved : 'en', false);
+
+  sel.addEventListener('change', () => setLang(sel.value));
+  watch();
+  window.addEventListener('load', () => { watch(); queueRepaint(); });
+})();
 
 // --- Lightbox: click to enlarge images in the residences (condo) section ---
 (function initLightbox() {
