@@ -1482,9 +1482,34 @@ section { padding: 100px 40px; position: relative; }
 }
 
 .rooms-carousel { position: relative; }
-.rooms-viewport { overflow: hidden; }
-.rooms-track { display: flex; gap: 20px; transition: transform 0.45s cubic-bezier(.22,.61,.36,1); will-change: transform; }
-.rooms-track .room-card { flex: 0 0 calc((100% - 40px) / 3); }
+/* Native horizontal scrolling: the track used to be transformed inside an
+   overflow:hidden viewport, which left touch and trackpad with no way to move
+   it - on a phone one card filled the screen and the rest looked missing even
+   though the arrows reached them. Top padding keeps the card hover-lift from
+   being clipped now that overflow-y is no longer visible. */
+.rooms-viewport {
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 6px 0 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(250,247,242,0.3) rgba(250,247,242,0.08);
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.rooms-viewport::-webkit-scrollbar { height: 8px; }
+.rooms-viewport::-webkit-scrollbar-track {
+  background: rgba(250,247,242,0.08); border-radius: 100px;
+}
+.rooms-viewport::-webkit-scrollbar-thumb {
+  background: rgba(250,247,242,0.3); border-radius: 100px;
+}
+.rooms-viewport::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+.rooms-track { display: flex; gap: 20px; }
+.rooms-track .room-card { flex: 0 0 calc((100% - 40px) / 3); scroll-snap-align: start; }
+@media (prefers-reduced-motion: reduce) {
+  .rooms-viewport { scroll-behavior: auto; }
+}
 .carousel-arrow {
   position: absolute; top: calc(50% - 24px); transform: translateY(-50%);
   width: 44px; height: 44px; border-radius: 50%;
@@ -2961,10 +2986,11 @@ const roomData = {
   madora: {
     label: 'M Adora',
     rooms: [
-      { name: 'Studio',      now: 'RM1,380', img: 'BeLive_MAdora_Studio.jpg' },
-      { name: 'Master Room', now: 'RM1,180', img: 'BeLive_MAdora_Master_Bedroom.jpg' },
-      { name: 'Double Room', now: 'RM930',   img: 'BeLive_MAdora_Double_Bedroom.jpg' },
+
       { name: 'Single Room', now: 'RM780',   img: 'BeLive_MAdora_Single_Bedroom.jpg' },
+      { name: 'Double Room', now: 'RM930',   img: 'BeLive_MAdora_Double_Bedroom.jpg' },
+      { name: 'Master Room', now: 'RM1,180', img: 'BeLive_MAdora_Master_Bedroom.jpg' },
+      { name: 'Studio',      now: 'RM1,380', img: 'BeLive_MAdora_Studio.jpg' },
     ],
     specs: [
       { v: '31', l: 'Storeys' },
@@ -2984,10 +3010,11 @@ const roomData = {
   mhplatinum2: {
     label: 'MH Platinum 2',
     rooms: [
-      { name: 'Studio',      now: 'RM1,380', img: 'BeLive_MHPlatinum2_Studio.jpg' },
-      { name: 'Master Room', now: 'RM1,180', img: 'BeLive_MHPlatinum2_Master_Bedroom.jpg' },
-      { name: 'Double Room', now: 'RM880',   img: 'BeLive_MHPlatinum2_Double_Bedroom.jpg' },
+
       { name: 'Single Room', now: 'RM780',   img: 'BeLive_MHPlatinum2_Single_Bedroom.jpg' },
+      { name: 'Double Room', now: 'RM880',   img: 'BeLive_MHPlatinum2_Double_Bedroom.jpg' },
+      { name: 'Master Room', now: 'RM1,180', img: 'BeLive_MHPlatinum2_Master_Bedroom.jpg' },
+      { name: 'Studio',      now: 'RM1,380', img: 'BeLive_MHPlatinum2_Studio.jpg' },
     ],
     specs: [
       { v: '3', l: 'Blocks' },
@@ -3007,9 +3034,10 @@ const roomData = {
   rica: {
     label: 'Rica Residence',
     rooms: [
-      { name: 'Master Room', now: 'RM1,180', img: 'BeLive_Rica_Master_Bedroom.jpg' },
-      { name: 'Double Room', now: 'RM880',   img: 'BeLive_Rica_Double_Bedroom.jpg' },
+
       { name: 'Single Room', now: 'RM780',   img: 'BeLive_Rica_Single_Bedroom.jpg' },
+      { name: 'Double Room', now: 'RM880',   img: 'BeLive_Rica_Double_Bedroom.jpg' },
+      { name: 'Master Room', now: 'RM1,180', img: 'BeLive_Rica_Master_Bedroom.jpg' },
     ],
     specs: [
       { v: '39', l: 'Storeys' },
@@ -3031,9 +3059,10 @@ const roomData = {
   mvertica: {
     label: 'M Vertica',
     rooms: [
-      { name: 'Master Room', now: 'RM1,180', img: 'BeLive_MVertica_Master_Bedroom.jpg' },
-      { name: 'Double Room', now: 'RM880',   img: 'BeLive_MVertica_Double_Bedroom.jpg' },
+
       { name: 'Single Room', now: 'RM780',   img: 'BeLive_MVertica_Single_Bedroom.jpg' },
+      { name: 'Double Room', now: 'RM880',   img: 'BeLive_MVertica_Double_Bedroom.jpg' },
+      { name: 'Master Room', now: 'RM1,180', img: 'BeLive_MVertica_Master_Bedroom.jpg' },
     ],
     specs: [
       { v: '5', l: 'Towers' },
@@ -3139,7 +3168,7 @@ function renderRooms(key) {
       <button class="carousel-arrow next" aria-label="Next rooms">›</button>
     </div>
   `;
-  initRoomsCarousel(d.rooms.length);
+  initRoomsCarousel();
 
   // Hide the shared-spaces block unless this residence has its own photos, so
   // one property's common areas are never shown under another's name.
@@ -3156,40 +3185,46 @@ function renderRooms(key) {
 }
 
 let roomsCarouselResizeHandler = null;
-function initRoomsCarousel(total) {
+function initRoomsCarousel() {
   const root = roomsStrip.querySelector('.rooms-carousel');
   if (!root) return;
+  const viewport = root.querySelector('.rooms-viewport');
   const track = root.querySelector('.rooms-track');
   const prev = root.querySelector('.carousel-arrow.prev');
   const next = root.querySelector('.carousel-arrow.next');
-  let index = 0;
+  if (!viewport || !track || !prev || !next) return;
 
-  const visibleCount = () => {
-    if (window.innerWidth <= 540) return 1;
-    if (window.innerWidth <= 900) return 2;
-    return 3;
-  };
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  const update = () => {
-    const v = visibleCount();
-    const maxIndex = Math.max(0, total - v);
-    if (index > maxIndex) index = maxIndex;
+  // One card plus one gap, measured live so it follows the responsive basis.
+  const step = () => {
     const card = track.querySelector('.room-card');
-    const cardWidth = card ? card.getBoundingClientRect().width : 0;
-    const gap = 20;
-    track.style.transform = `translateX(-${index * (cardWidth + gap)}px)`;
-    prev.disabled = index <= 0;
-    next.disabled = index >= maxIndex;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 20;
+    return card ? card.getBoundingClientRect().width + gap : viewport.clientWidth;
   };
 
-  prev.addEventListener('click', () => { index = Math.max(0, index - 1); update(); });
-  next.addEventListener('click', () => { index = index + 1; update(); });
+  // Derived from scrollLeft, never from an index counter, so it stays correct
+  // after a swipe, a trackpad scroll or a scrollbar drag - not just a click.
+  const sync = () => {
+    const max = viewport.scrollWidth - viewport.clientWidth;
+    prev.disabled = viewport.scrollLeft <= 2;
+    next.disabled = viewport.scrollLeft >= max - 2;
+  };
+
+  const go = (dir) => viewport.scrollBy({
+    left: dir * step(),
+    behavior: reduceMotion.matches ? 'auto' : 'smooth',
+  });
+
+  prev.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go(1));
+  viewport.addEventListener('scroll', sync, { passive: true });
 
   if (roomsCarouselResizeHandler) window.removeEventListener('resize', roomsCarouselResizeHandler);
-  roomsCarouselResizeHandler = update;
+  roomsCarouselResizeHandler = sync;
   window.addEventListener('resize', roomsCarouselResizeHandler);
 
-  requestAnimationFrame(update);
+  requestAnimationFrame(sync);
 }
 
 function activateResidence(key) {
